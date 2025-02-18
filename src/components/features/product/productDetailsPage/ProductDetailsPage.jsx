@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { CartListData, ProductData } from "../../dummyData";
+import { CartListData, ProductData } from "../../../../dummyData";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemIntoCart } from "../../cart/CartSlice";
 
