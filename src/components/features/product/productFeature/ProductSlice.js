@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const ProductSlice = createSlice({
   name: "Product_Slice",
   initialState: {
-    selectedProduct:null,
+    selectedProduct: null,
   },
   reducers: {
-   setSelectedProduct:(state,action)=>{
-    state.selectedProduct=action.payload;
-   }
+    setSelectedProduct: (state, action) => {
+      state.selectedProduct = action.payload;
+    },
   },
 });
 
