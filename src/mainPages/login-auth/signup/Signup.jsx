@@ -38,6 +38,13 @@ const Signup = () => {
     onSubmit: (values, props) => {
       props.setSubmitting(false);
       getUserSignup(values);
+      setFormData({
+        name: "",
+        password: "",
+        email: "",
+        confirmPassword: "",
+        isUserSignup: true,
+      });
     },
   });
 

@@ -41,7 +41,7 @@ const Login = () => {
                 });
 
             } else {
-                Navigate('/login');
+                navigate('/login');
                 const alertData = { isShowAlert: true, isSuccess: false, message: data.data.message, timer: 1500 }
                 PopupAlertBox(alertData);
                 setSubmitBtnValue('Log in');
