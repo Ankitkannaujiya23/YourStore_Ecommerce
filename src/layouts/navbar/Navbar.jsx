@@ -1,8 +1,9 @@
 import React,{ Fragment }  from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../mainPages/login-auth/AuthSlice';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -19,8 +20,13 @@ const Navbar = () => {
 
 
 const cartList= useSelector(state=> state.CartSlice.cartItems);
+const dispatch= useDispatch();
+const navigate=useNavigate();
 
-
+const handleLogout=()=>{
+  dispatch(logoutUser());
+  navigate('/login');
+}
   return(
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -124,8 +130,8 @@ const cartList= useSelector(state=> state.CartSlice.cartItems);
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="#"
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                            onClick={handleLogout}
                           >
                             Sign out
                           </a>

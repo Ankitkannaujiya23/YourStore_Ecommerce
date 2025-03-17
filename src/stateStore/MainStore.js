@@ -1,7 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import AlertDataSlice from "./storeSlices/AlertDataSlice";
-import UserSlice from "./storeSlices/UserStoreSlice";
-//import ProductSlice from "./storeSlices/ProductStoreSlice";
 import CartSlice from "../components/features/cart/CartSlice";
 import CheckoutSlice from "../components/features/checkout/CheckoutSlice";
 import OrderSlice from "../components/features/orders/OrderSlice";
@@ -13,7 +11,6 @@ import { authApi } from "../mainPages/login-auth/authApi";
 const store = configureStore({
   reducer: {
     AlertDataSlice,
-    UserSlice,
     CartSlice,
     CheckoutSlice,
     OrderSlice,

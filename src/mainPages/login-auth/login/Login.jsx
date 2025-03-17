@@ -5,10 +5,12 @@ import { useFormik } from 'formik';
 import { API } from '../../../services/apiConfig';
 import { useDispatch } from 'react-redux';
 import { PopupAlertBox } from '../../../components/sweetAlertBox/CustomAlert';
-import { setUser } from '../../../stateStore/storeSlices/UserStoreSlice';
+import { useLoginMutation } from '../authApi';
+import { setUser } from '../AuthSlice';
 const Login = () => {
     const [formData, setFormData] = useState({ password: "", email: "", isUserSignup: false });
-    const[submitBtnValue, setSubmitBtnValue]=useState('Log in')
+    const[submitBtnValue, setSubmitBtnValue]=useState('Log in');
+    const[login,{isLoading,error}]= useLoginMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { values, handleChange, handleBlur, handleSubmit, errors, touched, isValid, isSubmitting } = useFormik({
@@ -19,30 +21,31 @@ const Login = () => {
         validationOnBlur: true,
         onSubmit: (values, props) => {
             props.setSubmitting(false);
-            getLoginUser(values);
+            handleLogin(values);
         }
     });
 
-    const getLoginUser = async (formData) => {
+    const handleLogin = async (formData) => {
         const { email, password } = formData;
         setSubmitBtnValue('Wait...')
         try {
-            const loginApiResponse = await API.loginUser({ email, password });
+            //const loginApiResponse = await API.loginUser({ email, password });
+            const loginApiResponse = await login(formData);
             const { data } = loginApiResponse;
-            if (data.data.statusCode === 200 && data.data.isLoggedIn) {
-                const alertData = { isShowAlert: true, isSuccess: true, message: data.data.message, timer: 1500 }
-                dispatch(setUser(data.data?.Data));
+            if (data.statusCode === 200) {
+                const alertData = { isShowAlert: true, isSuccess: true, message: data.message, timer: 1500 }
+                dispatch(setUser(data?.Data));
                 PopupAlertBox(alertData)
-                window.localStorage.setItem('token', data.data?.Data?.accessToken);
+                localStorage.setItem('token', data?.Data?.token);
 
                 navigate({
                     pathname: '/',
-                    state: data.data?.Data
+                    state: data?.Data
                 });
 
             } else {
                 navigate('/login');
-                const alertData = { isShowAlert: true, isSuccess: false, message: data.data.message, timer: 1500 }
+                const alertData = { isShowAlert: true, isSuccess: false, message: data.message, timer: 1500 }
                 PopupAlertBox(alertData);
                 setSubmitBtnValue('Log in');
             }
