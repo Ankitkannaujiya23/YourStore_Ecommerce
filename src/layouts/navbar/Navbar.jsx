@@ -22,7 +22,8 @@ const Navbar = () => {
 const cartList= useSelector(state=> state.CartSlice.cartItems);
 const dispatch= useDispatch();
 const navigate=useNavigate();
-
+const isLoggedIn=useSelector(state=> state.AuthSlice.isLoggedIn);
+console.log({isLoggedIn});
 const handleLogout=()=>{
   dispatch(logoutUser());
   navigate('/login');
@@ -107,7 +108,9 @@ const handleLogout=()=>{
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
+                    {isLoggedIn &&
+                    <>
+                    <Menu.Item>
                         {({ active }) => (
                           <a
                             href="#"
@@ -117,16 +120,7 @@ const handleLogout=()=>{
                           </a>
                         )}
                       </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </a>
-                        )}
-                      </Menu.Item>
+                     
                       <Menu.Item>
                         {({ active }) => (
                           <a
@@ -134,6 +128,16 @@ const handleLogout=()=>{
                             onClick={handleLogout}
                           >
                             Sign out
+                          </a>
+                        )}
+                      </Menu.Item></>}
+                      <Menu.Item>
+                        {({ active }) => (
+                          <a
+                            href="#"
+                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                          >
+                            Settings
                           </a>
                         )}
                       </Menu.Item>

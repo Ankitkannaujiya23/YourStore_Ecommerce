@@ -1,11 +1,17 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import ProductCard from './ProductCard'
+import { useGetProductsQuery } from './productsApi';
 
 const ProductList = ({ProductData}) => {
    
+    const [Products,{isLoading, error}]=useGetProductsQuery();
+    console.log({Products});
 
+useEffect(()=>{
+
+},[]);
 
     return (
         <div className="bg-white">
