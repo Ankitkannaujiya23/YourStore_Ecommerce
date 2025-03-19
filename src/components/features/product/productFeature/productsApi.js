@@ -5,7 +5,7 @@ export const productsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5001/api",
     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("token");
       if (token) {
         headers.set("token", token);
       }

@@ -13,7 +13,6 @@ import Pagination from "../../components/pagination/Pagination";
 import { brandList, categoryList, ProductData } from "../../dummyData";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  productsApi,
   useGetProductsQuery,
 } from "../../components/features/product/productFeature/productsApi";
 
@@ -88,10 +87,6 @@ const SidebarMenu = () => {
   });
 
   const { data, error, isLoading } = useGetProductsQuery();
-  console.log({ data, error, isLoading });
-  console.log("resp", productsApi.useGetProductsQuery);
-
-  console.log({ queryParams, productsApi });
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(ProductData.length / itemsPerPage);
