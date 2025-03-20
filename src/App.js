@@ -11,6 +11,7 @@ import {createBrowserRouter,RouterProvider, BrowserRouter as Router, Routes, Rou
 import PrivateRoute from './privateRoute/PrivateRoute';
 import CheckoutPage from './components/features/checkout/CheckoutPage';
 import OrderSuccessPage from './components/features/orderSuccess/OrderSuccessPage';
+import AddProductPage from './components/features/product/productFeature/AddProductPage';
 
 function App() {
 // const router=createBrowserRouter([
@@ -61,6 +62,9 @@ function App() {
     <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}/>
     <Route path='/orderSuccess' element={<PrivateRoute><OrderSuccessPage/></PrivateRoute>} />
     <Route path='/productDetails/:id' element={<PrivateRoute><ProductDetailsPage/></PrivateRoute>}/>
+    <Route path='/addProduct' element={<PrivateRoute allowedRoles={['admin']}>
+      <AddProductPage/>
+    </PrivateRoute>}/>
     </Routes>
      <Footer/>
 </Router>
