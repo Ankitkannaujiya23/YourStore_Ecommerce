@@ -2,6 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import SidebarMenu from '../../layouts/sidebarMenu/SidebarMenu'
+import { useSelector } from 'react-redux'
 
 const user = {
   name: 'Tom Cook',
@@ -27,6 +28,11 @@ function classNames(...classes) {
 }
 
 const HomePage=()=> {
+
+  const user= useSelector(state=> state.AuthSlice.user);
+
+  console.log({user});
+
   return (
     <>
       {/*

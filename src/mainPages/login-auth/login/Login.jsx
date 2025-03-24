@@ -34,7 +34,7 @@ const Login = () => {
             const { data } = loginApiResponse;
             if (data.statusCode === 200) {
                 const alertData = { isShowAlert: true, isSuccess: true, message: data.message, timer: 1500 }
-                dispatch(setUser(data?.Data));
+                dispatch(setUser(data.Data));
                 PopupAlertBox(alertData)
                 
 
