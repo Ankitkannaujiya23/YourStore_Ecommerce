@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AdminPanel = () => {
   return (
@@ -47,7 +48,7 @@ const AdminPanel = () => {
         <div className="col-span-2 bg-white p-4 rounded-lg shadow-md">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">Products</h2>
-            <button className="bg-purple-600 text-white px-4 py-2 rounded-md">+ Add Product</button>
+            <Link to='/addProduct' className="bg-purple-600 text-white px-4 py-2 rounded-md" >+ Add Product</Link>
           </div>
           <table className="w-full border-collapse">
             <thead>
