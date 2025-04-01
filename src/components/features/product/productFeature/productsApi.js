@@ -18,21 +18,21 @@ export const productsApi = createApi({
     }),
     addProduct: builder.mutation({
       query: (product) => ({
-        url: "/products",
+        url: "/product",
         method: "POST",
         body: product,
       }),
     }),
     updateProduct: builder.mutation({
       query: ({ id, ...updatedProduct }) => ({
-        url: `/products/${id}`,
+        url: `/product/${id}`,
         method: "PUT",
         body: updatedProduct,
       }),
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
-        url: `/products/${id}`,
+        url: `/product/${id}`,
         method: "DELETE",
       }),
     }),

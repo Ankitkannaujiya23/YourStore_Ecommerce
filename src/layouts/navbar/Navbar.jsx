@@ -23,7 +23,7 @@ const cartList= useSelector(state=> state.CartSlice.cartItems);
 const dispatch= useDispatch();
 const navigate=useNavigate();
 const isLoggedIn=useSelector(state=> state.AuthSlice.isLoggedIn);
-console.log({isLoggedIn});
+
 const handleLogout=()=>{
   dispatch(logoutUser());
   navigate('/login');
