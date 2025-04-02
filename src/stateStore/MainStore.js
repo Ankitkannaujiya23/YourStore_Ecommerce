@@ -7,20 +7,34 @@ import ProductSlice from "../components/features/product/productFeature/ProductS
 import AuthSlice from "../mainPages/login-auth/AuthSlice";
 import { productsApi } from "../components/features/product/productFeature/productsApi";
 import { authApi } from "../mainPages/login-auth/authApi";
+import  storage from 'redux-persist/lib/storage'; 
+import {persistReducer, persistStore} from "redux-persist";
+
+const persistConfig={
+  key:"root",
+  storage,
+  whitelist:['AuthSlice','CartSlice']
+};
+
+const rootReducer = combineReducers({
+  AlertDataSlice,
+  CartSlice,
+  CheckoutSlice,
+  OrderSlice,
+  ProductSlice,
+  AuthSlice,
+  [productsApi.reducerPath]: productsApi.reducer,
+  [authApi.reducerPath]: authApi.reducer,
+})
+
+  const persistedReducer= persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
-  reducer: {
-    AlertDataSlice,
-    CartSlice,
-    CheckoutSlice,
-    OrderSlice,
-    ProductSlice,
-    AuthSlice,
-    [productsApi.reducerPath]: productsApi.reducer,
-    [authApi.reducerPath]: authApi.reducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware),
 });
+
+export const persistor= persistStore(store);
 
 export default store;

@@ -13,6 +13,7 @@ import CheckoutPage from './components/features/checkout/CheckoutPage';
 import OrderSuccessPage from './components/features/orderSuccess/OrderSuccessPage';
 import AddProductPage from './components/features/product/productFeature/AddProductPage';
 import AdminPanel from './adminDashboard/AdminPanel';
+import UnAuthorize from './components/utilComponents/UnAuthorize';
 
 function App() {
 // const router=createBrowserRouter([
@@ -58,12 +59,13 @@ function App() {
     <Route path='/' element={<HomePage/>}/>
     <Route path='/login' element={<LoginPage/>}/>
     <Route path='/signup'element={<SignupPage/>}/>
-    <Route path='/admin'element={<AdminPanel/>}/>
+    {/* <Route path='/admin'element={<AdminPanel/>}/> */}
     <Route path='/sidebarMenu' element={<PrivateRoute><SidebarMenu/></PrivateRoute>}/>
     <Route path='/cart' element={<PrivateRoute><Cart/></PrivateRoute>}/>
     <Route path='/checkout' element={<PrivateRoute><CheckoutPage/></PrivateRoute>}/>
     <Route path='/orderSuccess' element={<PrivateRoute><OrderSuccessPage/></PrivateRoute>} />
     <Route path='/productDetails/:id' element={<PrivateRoute><ProductDetailsPage/></PrivateRoute>}/>
+
     <Route path='/addProduct' element={<PrivateRoute allowedRoles={['admin']}>
       <AddProductPage/>
     </PrivateRoute>}/>
@@ -73,6 +75,8 @@ function App() {
   <Route path='/admin' element={<PrivateRoute allowedRoles={['admin']}>
     <AdminPanel/>
     </PrivateRoute>}/>
+
+     <Route path='/unauthorize' element={<UnAuthorize/>} />
 
     </Routes>
      <Footer/>
