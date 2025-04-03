@@ -42,6 +42,7 @@ const validateForm=(values) => {
 
   const addOrUpdateProduct=async()=>{
     const model=values;
+    model.image=imagePreview;
     try {
       const res= await addProduct(model);
       const statusCode=res.data.statuCode

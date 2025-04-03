@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { useSelector } from "react-redux";
+;
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5001/api",
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
+    prepareHeaders: (headers,{getState}) => {
+     const token=getState().AuthSlice.user.token;
       if (token) {
         headers.set("token", token);
       }
