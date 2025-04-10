@@ -43,6 +43,15 @@ const validateForm=(values) => {
   const addOrUpdateProduct=async()=>{
     const model=values;
     model.image=imagePreview;
+    const formData= new FormData();
+    formData.append('name', values.name);
+    formData.append('price', values.price);
+    formData.append('stock', values.stock);
+    formData.append('category', values.category);
+    formData.append('description', values.description);
+    values.image.forEach((img)=>{
+      formData.append('image', img);
+    })
     try {
       const res= await addProduct(model);
       const statusCode=res.data.statuCode
