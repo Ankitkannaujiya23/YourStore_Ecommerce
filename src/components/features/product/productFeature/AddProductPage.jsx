@@ -9,8 +9,7 @@ const AddProductPage = () => {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [addProduct, {isLoading=true, error}] = useAddProductMutation();
-  console.log(addProduct);
-  
+
 
 let initialValues={
   name: "",
@@ -18,7 +17,8 @@ let initialValues={
   stock: "",
   category: "",
   description: "",
-  image: null,
+  image: [],
+  preview:[],
   featured: false,
 }
 const validateForm=(values) => {
@@ -40,21 +40,22 @@ const validateForm=(values) => {
     },
   });
 
+
   const addOrUpdateProduct=async()=>{
-    const model=values;
-    model.image=imagePreview;
+    
     const formData= new FormData();
     formData.append('name', values.name);
     formData.append('price', values.price);
     formData.append('stock', values.stock);
     formData.append('category', values.category);
     formData.append('description', values.description);
+    
     values.image.forEach((img)=>{
-      formData.append('image', img);
+      formData.append('images', img);
     })
     try {
-      const res= await addProduct(model);
-      const statusCode=res.data.statuCode
+      const res= await addProduct(formData);
+      const statusCode=res.data.statusCode
       if( statusCode===200 || statusCode===201){
         console.log({res});
       }
@@ -63,6 +64,14 @@ const validateForm=(values) => {
       
     } catch (error) {
       console.log({error});
+    }
+  }
+  const handleImages=(e)=>{
+    if(e.target.files){
+      let files= Array.from(e.target.files);
+      const previewUrls= files.map(file=> URL.createObjectURL(file));
+      setFieldValue('image', files);
+      setFieldValue('preview',previewUrls);
     }
   }
 
@@ -148,18 +157,18 @@ const validateForm=(values) => {
               type="file"
               className="hidden"
               accept="image/*"
-              onChange={(event) => {
-                setFieldValue("image", event.currentTarget.files[0]);
-                setImagePreview(URL.createObjectURL(event.currentTarget.files[0]));
-              }}
+              multiple
+              onChange={(event) => handleImages(event)}
             />
           </label>
-          {imagePreview && (
-            <div className="mt-2">
-              <img src={imagePreview} alt="Uploaded Preview" className="w-24 h-24 object-cover rounded-lg" />
+            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+          <div className="flex">
+          {values?.preview?.map((img)=>(
+            <div className="m-2">
+              <img src={img} alt="Uploaded Preview" className="w-24 h-24 object-cover rounded-lg" />
             </div>
-          )}
-          <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+           ))}
+        </div>
         </div>
         <div className="flex items-center space-x-2">
           <input

@@ -98,7 +98,7 @@ const AdminPanel = () => {
           <div className="bg-white p-4 rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Categories</h2>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm">+ Add</button>
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm">+ Add Category</button>
             </div>
             <ul>
               {[

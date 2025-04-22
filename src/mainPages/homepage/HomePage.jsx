@@ -31,7 +31,6 @@ const HomePage=()=> {
 
   const user= useSelector(state=> state.AuthSlice.user);
 
-  console.log({user});
 
   return (
     <>
