@@ -1,76 +1,104 @@
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useState } from "react";
+import { categoryValidationSchema } from "../../../validationSchema/ValidationSchema";
 
- const AddUpdateCategoryPage=()=> {
+const AddUpdateCategoryPage=()=> {
+  const [preview, setPreview] = useState(null);
 
-  const [formData, setFormData]=useState({
-    categoryName:'',
-    image:null,
-    preview:null
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      image: null,
+    },
+    validationSchema: categoryValidationSchema,
+    onSubmit: (values) => {
+      submitForm(values);
+    },
   });
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.currentTarget.files[0];
+    formik.setFieldValue("image", file);
+
     if (file) {
-      setFormData({...formData, image:file, preview:URL.createObjectURL(file)})
+      const reader = new FileReader();
+      reader.onloadend = () => setPreview(reader.result);
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const submitForm=(values)=>{
     const formData = new FormData();
-    formData.append("name", categoryName);
-    if (image) formData.append("image", image);
+    formData.append("name", values.name);
+    formData.append("image", values.image);
 
-    // Submit logic
-  };
+    
+
+  }
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow-xl">
-      <h2 className="text-2xl font-bold mb-4 text-purple-700">Add New Category</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1 font-medium">Category Name</label>
+    <form
+      onSubmit={formik.handleSubmit}
+      className="max-w-md mx-auto p-4 bg-white rounded-xl shadow-lg space-y-4"
+    >
+      <h2 className="text-2xl font-bold text-center text-purple-600">
+        Add Category
+      </h2>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Category Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500 sm:text-sm"
+        />
+        {formik.touched.name && formik.errors.name && (
+          <div className="text-red-500 text-sm">{formik.errors.name}</div>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Upload Image
+        </label>
+        <div className="relative flex items-center justify-between border border-dashed border-purple-500 rounded-lg p-4 cursor-pointer bg-purple-50 hover:bg-purple-100">
           <input
-            type="text"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.target.value)}
-            placeholder="Enter category name"
-            required
+            type="file"
+            name="image"
+            accept="image/png, image/jpeg"
+            onChange={handleImageChange}
+            onBlur={formik.handleBlur}
+            className="absolute inset-0 opacity-0 cursor-pointer"
           />
+          <span className="text-purple-600 font-medium">Choose Image</span>
         </div>
+        {formik.touched.image && formik.errors.image && (
+          <div className="text-red-500 text-sm mt-1">{formik.errors.image}</div>
+        )}
+      </div>
 
-        <div>
-          <label className="block mb-1 font-medium">Category Image</label>
-          <div className="flex items-center gap-4">
-            <label className="cursor-pointer inline-block bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
-              Upload Image
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-            </label>
-            {preview && (
-              <img
-                src={preview}
-                alt="Preview"
-                className="w-16 h-16 object-cover rounded-lg border"
-              />
-            )}
-          </div>
-        </div>
+      {preview && (
+        <img
+          src={preview}
+          alt="Preview"
+          className="w-full max-h-48 object-contain rounded-lg shadow border"
+        />
+      )}
 
-        <button
-          type="submit"
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg"
-        >
-          Add Category
-        </button>
-      </form>
-    </div>
+      <button
+        type="submit"
+        className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-md font-semibold"
+      >
+        Add Category
+      </button>
+    </form>
   );
-};
+}
 
-export default AddUpdateCategoryPage;
+export default AddUpdateCategoryPage

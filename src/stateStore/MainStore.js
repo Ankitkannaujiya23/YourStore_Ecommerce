@@ -9,6 +9,8 @@ import { productsApi } from "../components/features/product/productFeature/produ
 import { authApi } from "../mainPages/login-auth/authApi";
 import  storage from 'redux-persist/lib/storage'; 
 import {persistReducer, persistStore} from "redux-persist";
+import CategorySlice from '../components/features/category/CategorySlice'
+import { categoryApi } from "../components/features/category/categoryApi";
 
 const persistConfig={
   key:"root",
@@ -23,8 +25,10 @@ const rootReducer = combineReducers({
   OrderSlice,
   ProductSlice,
   AuthSlice,
+  CategorySlice,
   [productsApi.reducerPath]: productsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
+  [categoryApi.reducerPath]:categoryApi.reducer,
 })
 
   const persistedReducer= persistReducer(persistConfig, rootReducer)
@@ -32,7 +36,7 @@ const rootReducer = combineReducers({
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware),
+    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware),
 });
 
 export const persistor= persistStore(store);

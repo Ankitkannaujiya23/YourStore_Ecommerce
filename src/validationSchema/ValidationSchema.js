@@ -48,3 +48,17 @@ export const addressDetailsValidation = yup.object({
   state: yup.string().required("Enter your state name"),
   pincode: yup.string().required("Enter your pincode"),
 });
+
+
+
+export const categoryValidationSchema=yup.object({
+    name: yup.string().required("Category name is required"),
+    image: yup.mixed()
+      .required("Image is required")
+      .test(
+        "fileType",
+        "Only JPG and PNG files are allowed",
+        (value) =>
+          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+      ),
+  })
