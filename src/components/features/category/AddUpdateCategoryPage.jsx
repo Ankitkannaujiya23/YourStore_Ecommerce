@@ -2,15 +2,20 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { categoryValidationSchema } from "../../../validationSchema/ValidationSchema";
+import { useAddCategoryMutation } from "./categoryApi";
+import CategoryLoader from "../../loaders/CategoryLoader";
 
 const AddUpdateCategoryPage=()=> {
   const [preview, setPreview] = useState(null);
+  const[addCategory,{isLoading,isError}]=useAddCategoryMutation();
+
+  const initialValues={
+    name: "",
+    image: null,
+  }
 
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      image: null,
-    },
+    initialValues,
     validationSchema: categoryValidationSchema,
     onSubmit: (values) => {
       submitForm(values);
@@ -28,16 +33,19 @@ const AddUpdateCategoryPage=()=> {
     }
   };
 
-  const submitForm=(values)=>{
+  const submitForm=async(values)=>{
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("image", values.image);
 
-    
+    const response= await addCategory(formData);
+    console.log({response});
 
   }
 
   return (
+    <>
+    {(isLoading || isError) && <CategoryLoader isError={isError} isLoading={isLoading}/> }
     <form
       onSubmit={formik.handleSubmit}
       className="max-w-md mx-auto p-4 bg-white rounded-xl shadow-lg space-y-4"
@@ -98,7 +106,8 @@ const AddUpdateCategoryPage=()=> {
         Add Category
       </button>
     </form>
-  );
+
+    </>);
 }
 
 export default AddUpdateCategoryPage

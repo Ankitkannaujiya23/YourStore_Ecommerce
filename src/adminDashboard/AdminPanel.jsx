@@ -2,8 +2,13 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { useGetCategoryQuery } from "../components/features/category/categoryApi";
 
 const AdminPanel = () => {
+
+  const {data:categoryList, isError, isLoading}=useGetCategoryQuery();
+  console.log({categoryList});
+
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-6">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
