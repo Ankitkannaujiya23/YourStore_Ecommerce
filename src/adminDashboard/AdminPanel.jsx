@@ -3,11 +3,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useGetCategoryQuery } from "../components/features/category/categoryApi";
+import Category from "../components/features/category/Category";
 
 const AdminPanel = () => {
-
-  const {data:categoryList, isError, isLoading}=useGetCategoryQuery();
-  console.log({categoryList});
 
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-6">
@@ -82,9 +80,8 @@ const AdminPanel = () => {
                     <td className="p-2">{product.stock}</td>
                     <td className="p-2">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs bg-${
-                          product.status === "Active" ? "green" : "yellow"
-                        }-200 text-${product.status === "Active" ? "green" : "yellow"}-800`}
+                        className={`px-2 py-1 rounded-full text-xs bg-${product.status === "Active" ? "green" : "yellow"
+                          }-200 text-${product.status === "Active" ? "green" : "yellow"}-800`}
                       >
                         {product.status}
                       </span>
@@ -100,29 +97,7 @@ const AdminPanel = () => {
           </div>
 
           {/* Categories */}
-          <div className="bg-white p-4 rounded-lg shadow-md">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">Categories</h2>
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm">+ Add Category</button>
-            </div>
-            <ul>
-              {[
-                { name: "Electronics", count: 84 },
-                { name: "Wearables", count: 36 },
-                { name: "Audio", count: 29 },
-                { name: "Accessories", count: 50 },
-              ].map((category, index) => (
-                <li key={index} className="flex justify-between items-center p-2 border-b">
-                  <span>{category.name}</span>
-                  <span className="text-gray-500 text-sm">{category.count} products</span>
-                  <div className="flex gap-2">
-                    <button className="text-blue-500">✏️</button>
-                    <button className="text-red-500">🗑️</button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Category />
         </div>
       </div>
     </div>
