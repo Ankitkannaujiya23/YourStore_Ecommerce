@@ -3,26 +3,27 @@ import { useGetCategoryQuery } from './categoryApi'
 import CategoryLoader from '../../loaders/CategoryLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategoryList } from './CategorySlice';
+import { useNavigate } from 'react-router-dom';
 
 const Category = () => {
     const { data, isLoading, isError } = useGetCategoryQuery();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const categoryList = useSelector(state => state.CategorySlice.categoryList);
     console.log({ categoryList });
 
     useEffect(() => {
-        console.log("use run");
-
         if (data?.statusCode === 200) {
             dispatch(setCategoryList(data.response));
         }
     }, [data]);
+
     return (
         <>
             <div className="bg-white p-4 rounded-lg shadow-md">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold">Categories</h2>
-                    <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm">+ Add Category</button>
+                    <button className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm" onClick={() => navigate('/addCategory')}>+ Add Category</button>
                 </div>
                 <ul>
                     {isLoading ? <CategoryLoader /> :
