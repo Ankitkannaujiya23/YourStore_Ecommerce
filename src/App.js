@@ -15,6 +15,8 @@ import AddProductPage from './components/features/product/productFeature/AddProd
 import AdminPanel from './adminDashboard/AdminPanel';
 import UnAuthorize from './components/utilComponents/UnAuthorize';
 import AddUpdateCategoryPage from './components/features/category/AddUpdateCategoryPage';
+import { ResetPasswordForm } from './components/resetPassword/ResetPasswordForm';
+import { NewPasswordForm } from './components/resetPassword/NewPasswordForm';
 
 function App() {
   // const router=createBrowserRouter([
@@ -60,6 +62,8 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
+          <Route path='/reset-password' element={<ResetPasswordForm />} />
+          <Route path='/new-password' element={<NewPasswordForm />} />
           <Route path='/sidebarMenu' element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
           <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>} />
           <Route path='/checkout' element={<PrivateRoute><CheckoutPage /></PrivateRoute>} />
