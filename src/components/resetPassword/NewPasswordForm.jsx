@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useLocation } from "react-router-dom";
 
 
 export const NewPasswordForm = () => {
+
+    const location=useLocation();
+
     const formik = useFormik({
         initialValues: { newPassword: "", confirmPassword: "" },
         validationSchema: Yup.object({
@@ -16,6 +20,13 @@ export const NewPasswordForm = () => {
             console.log("New password set:", values.newPassword);
         },
     });
+
+    const resetPassword=()=>{
+        const prm= new URLSearchParams(location.search);
+        const token= prm.get('token');
+        
+    }
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -49,7 +60,7 @@ export const NewPasswordForm = () => {
 
                 <button
                     type="submit"
-                    className="mt-4 w-full bg-blue-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded"
+                    className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
                 >
                     Update Password
                 </button>

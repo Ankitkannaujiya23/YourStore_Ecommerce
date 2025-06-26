@@ -62,8 +62,8 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
-          <Route path='/reset-password' element={<ResetPasswordForm />} />
-          <Route path='/new-password' element={<NewPasswordForm />} />
+          <Route path='/forgot-password' element={<ResetPasswordForm />} />
+          <Route path='/reset-password' element={<NewPasswordForm />} />
           <Route path='/sidebarMenu' element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
           <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>} />
           <Route path='/checkout' element={<PrivateRoute><CheckoutPage /></PrivateRoute>} />
