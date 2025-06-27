@@ -9,9 +9,9 @@ export const LoginOrSignupSchema = (isUserSignup) =>
     email: yup.string().email().required("*Please enter your email."),
     confirmPassword: isUserSignup
       ? yup
-          .string()
-          .required("*Please enter confirm password.")
-          .oneOf([yup.ref("password"), null], "*Passwords must match.") // ✅ Match password
+        .string()
+        .required("*Please enter confirm password.")
+        .oneOf([yup.ref("password"), null], "*Passwords must match.") // ✅ Match password
       : yup.string(),
   });
 
@@ -51,14 +51,22 @@ export const addressDetailsValidation = yup.object({
 
 
 
-export const categoryValidationSchema=yup.object({
-    name: yup.string().required("Category name is required"),
-    image: yup.mixed()
-      .required("Image is required")
-      .test(
-        "fileType",
-        "Only JPG and PNG files are allowed",
-        (value) =>
-          value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-      ),
-  })
+export const categoryValidationSchema = yup.object({
+  name: yup.string().required("Category name is required"),
+  image: yup.mixed()
+    .required("Image is required")
+    .test(
+      "fileType",
+      "Only JPG and PNG files are allowed",
+      (value) =>
+        value && ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+    ),
+})
+
+
+export const newPasswordFormSchema = yup.object({
+  newPassword: yup.string().min(6, "At least 6 characters").required("Required"),
+  confirmPassword: yup.string()
+    .oneOf([yup.ref("newPassword")], "Passwords must match")
+    .required("Required"),
+})

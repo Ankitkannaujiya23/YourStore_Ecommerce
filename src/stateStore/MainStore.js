@@ -7,15 +7,16 @@ import ProductSlice from "../components/features/product/productFeature/ProductS
 import AuthSlice from "../mainPages/login-auth/AuthSlice";
 import { productsApi } from "../components/features/product/productFeature/productsApi";
 import { authApi } from "../mainPages/login-auth/authApi";
-import  storage from 'redux-persist/lib/storage'; 
-import {persistReducer, persistStore} from "redux-persist";
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from "redux-persist";
 import CategorySlice from '../components/features/category/CategorySlice'
 import { categoryApi } from "../components/features/category/categoryApi";
+import { forgotPasswordApi } from "../components/resetPassword/forgotPasswordApi";
 
-const persistConfig={
-  key:"root",
+const persistConfig = {
+  key: "root",
   storage,
-  whitelist:['AuthSlice','CartSlice']
+  whitelist: ['AuthSlice', 'CartSlice']
 };
 
 const rootReducer = combineReducers({
@@ -28,17 +29,18 @@ const rootReducer = combineReducers({
   CategorySlice,
   [productsApi.reducerPath]: productsApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
-  [categoryApi.reducerPath]:categoryApi.reducer,
+  [categoryApi.reducerPath]: categoryApi.reducer,
+  [forgotPasswordApi.reducerPath]: forgotPasswordApi.reducer,
 })
 
-  const persistedReducer= persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware),
+    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware, forgotPasswordApi.middleware),
 });
 
-export const persistor= persistStore(store);
+export const persistor = persistStore(store);
 
 export default store;

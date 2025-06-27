@@ -9,8 +9,8 @@ import { useLoginMutation } from '../authApi';
 import { setUser } from '../AuthSlice';
 const Login = () => {
     const [formData, setFormData] = useState({ password: "", email: "", isUserSignup: false });
-    const[submitBtnValue, setSubmitBtnValue]=useState('Log in');
-    const[login,{isLoading,error}]= useLoginMutation();
+    const [submitBtnValue, setSubmitBtnValue] = useState('Log in');
+    const [login, { isLoading, error }] = useLoginMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { values, handleChange, handleBlur, handleSubmit, errors, touched, isValid, isSubmitting } = useFormik({
@@ -36,7 +36,7 @@ const Login = () => {
                 const alertData = { isShowAlert: true, isSuccess: true, message: data.message, timer: 1500 }
                 dispatch(setUser(data.Data));
                 PopupAlertBox(alertData)
-                
+
 
                 navigate({
                     pathname: '/',
@@ -53,7 +53,7 @@ const Login = () => {
             console.log(error);
             const alertData = { isShowAlert: true, isSuccess: false, message: error.message, timer: 1500 }
             PopupAlertBox(alertData);
-            setSubmitBtnValue('Log in');     
+            setSubmitBtnValue('Log in');
         }
     }
 
@@ -96,7 +96,7 @@ const Login = () => {
                                 Password
                             </label>
                             <div className="text-sm">
-                                <Link to="/reset-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                                <Link to="/forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
                                     Forgot password?
                                 </Link>
                             </div>
