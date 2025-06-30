@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CartListData, ProductData } from "../../../../dummyData";
 import { useDispatch, useSelector } from "react-redux";
 import { addItemIntoCart } from "../../cart/CartSlice";
+import { useGetProductByIdQuery } from "../productFeature/productsApi";
 
 const product = {
   name: "Basic Tee 6-Pack",
@@ -72,7 +73,9 @@ const ProductDetailsPage = () => {
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
   const { id } = useParams();
-  const getSelectedData = ProductData.find((row) => row.id == id);
+  const { data, isLoading, isError } = useGetProductByIdQuery(id);
+  // const getSelectedData = ProductData.find((row) => row.id == id);
+  const getSelectedData = data?.data[0];
   console.log({ getSelectedData });
 
   const navigate = useNavigate();
@@ -97,7 +100,7 @@ const ProductDetailsPage = () => {
                     href={breadcrumb.href}
                     className="mr-2 text-sm font-medium text-gray-900"
                   >
-                    {breadcrumb.name}
+                    {getSelectedData.category}
                   </a>
                   <svg
                     width={16}
@@ -118,14 +121,14 @@ const ProductDetailsPage = () => {
                 aria-current="page"
                 className="font-medium text-gray-500 hover:text-gray-600"
               >
-                {getSelectedData?.title}
+                {getSelectedData?.name}
               </a>
             </li>
           </ol>
         </nav>
 
         {/* Image gallery */}
-        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+        {/* <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
             <img
               src={getSelectedData?.images[0]}
@@ -156,13 +159,13 @@ const ProductDetailsPage = () => {
               className="h-full w-full object-cover object-center"
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Product info */}
         <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-              {getSelectedData?.title}
+              {getSelectedData?.name}
             </h1>
           </div>
 
@@ -176,7 +179,7 @@ const ProductDetailsPage = () => {
               ${" "}
               {Math.round(
                 getSelectedData?.price *
-                  (1 - getSelectedData?.discountPercentage / 100)
+                (1 - (getSelectedData?.discountPercentage ?? 0) / 100)
               )}
             </p>
 

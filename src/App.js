@@ -64,11 +64,11 @@ function App() {
           <Route path='/signup' element={<SignupPage />} />
           <Route path='/forgot-password' element={<ResetPasswordForm />} />
           <Route path='/reset-password' element={<NewPasswordForm />} />
+          <Route path='/productDetails/:id' element={<ProductDetailsPage />} />
           <Route path='/sidebarMenu' element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
           <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>} />
           <Route path='/checkout' element={<PrivateRoute><CheckoutPage /></PrivateRoute>} />
           <Route path='/orderSuccess' element={<PrivateRoute><OrderSuccessPage /></PrivateRoute>} />
-          <Route path='/productDetails/:id' element={<PrivateRoute><ProductDetailsPage /></PrivateRoute>} />
 
           <Route path='/addProduct' element={<PrivateRoute allowedRoles={['admin']}>
             <AddProductPage />

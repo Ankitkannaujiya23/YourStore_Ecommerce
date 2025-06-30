@@ -6,8 +6,8 @@ export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5001/api",
-    prepareHeaders: (headers,{getState}) => {
-     const token=getState().AuthSlice.user.token;
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().AuthSlice.user.token;
       if (token) {
         headers.set("token", token);
       }
@@ -17,6 +17,9 @@ export const productsApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/products",
+    }),
+    getProductById: builder.query({
+      query: (id) => `/product/${id}`
     }),
     addProduct: builder.mutation({
       query: (product) => ({
@@ -43,6 +46,7 @@ export const productsApi = createApi({
 
 export const {
   useGetProductsQuery,
+  useGetProductByIdQuery,
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
