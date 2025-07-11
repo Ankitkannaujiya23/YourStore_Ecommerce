@@ -18,6 +18,7 @@ import AddUpdateCategoryPage from './components/features/category/AddUpdateCateg
 import { ResetPasswordForm } from './components/resetPassword/ResetPasswordForm';
 import { NewPasswordForm } from './components/resetPassword/NewPasswordForm';
 import ProductDetailPage from './components/features/product/productDetailsPage/ProductDetailPage';
+import AddUpdateColorPage from './components/features/colors/AddUpdateColorPage';
 
 function App() {
   // const router=createBrowserRouter([
@@ -63,7 +64,7 @@ function App() {
           <Route path='/' element={<HomePage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
-          <Route path='/demo' element={<ProductDetailsPage />} />
+          <Route path='/demo' element={<AddUpdateColorPage />} />
           <Route path='/forgot-password' element={<ResetPasswordForm />} />
           <Route path='/reset-password' element={<NewPasswordForm />} />
           <Route path='/productDetails/:id' element={<ProductDetailPage />} />
