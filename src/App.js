@@ -19,6 +19,8 @@ import { ResetPasswordForm } from './components/resetPassword/ResetPasswordForm'
 import { NewPasswordForm } from './components/resetPassword/NewPasswordForm';
 import ProductDetailPage from './components/features/product/productDetailsPage/ProductDetailPage';
 import AddUpdateColorPage from './components/features/colors/AddUpdateColorPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // const router=createBrowserRouter([
@@ -58,6 +60,15 @@ function App() {
   // ])
   return (
     <div className="App  ">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="light"
+      />
       <Router>
         <Navbar />
         <Routes>
@@ -83,6 +94,12 @@ function App() {
             <AdminPanel />
           </PrivateRoute>} />
 
+          <Route path='/addColor' element={<PrivateRoute allowedRoles={['admin']}>
+            <AddUpdateColorPage /></PrivateRoute>} >
+          </Route>
+          <Route path='/updateColor/:id' element={<PrivateRoute allowedRoles={['admin']}>
+            <AddUpdateColorPage /></PrivateRoute>} >
+          </Route>
           <Route path='/addCategory' element={<PrivateRoute allowedRoles={['admin']}>
             <AddUpdateCategoryPage />
           </PrivateRoute>} />

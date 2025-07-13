@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import SubmitButtonComp from "../../utilComponents/SubmitButtonComp";
+import { useAddColorMutation, useUpdateColorMutation } from "./handleColorsApi";
+import { toast } from "react-toastify";
 
 const AddUpdateColorPage = () => {
     const defaultValues = {
@@ -9,10 +12,12 @@ const AddUpdateColorPage = () => {
         code: "#000000",
     }
     const [initialValues, setInitialValues] = useState(defaultValues);
+    const [addColor, { isLoading: isAddLoading, isError: isAddError }] = useAddColorMutation();
+    const [updateColor, { isLoading: isUpdateLoading, isError: isUpdateError }] = useUpdateColorMutation();
 
-    const { id } = useSearchParams();
+    const { id } = useParams();
 
-    useEffect(() => {   
+    useEffect(() => {
 
     }, []);
 
@@ -23,14 +28,38 @@ const AddUpdateColorPage = () => {
             code: Yup.string().required("Color code is required"),
         }),
         onSubmit: (values) => {
-            console.log("Color Submitted:", values);
+            handleAddUpdateColor();
         },
     });
+
+    const handleAddUpdateColor = async () => {
+        const { values } = formik;
+        try {
+            const model = {
+                name: values.name,
+                hexCode: values.code
+            }
+            const response = id ? await updateColor(model) : await addColor(model);
+            const data = response.data;
+            if (data.statusCode === 200 || data.statusCode === 201) {
+
+                toast.success(`Color ${data.statusCode === 200 ? "Added" : "Updated"} Successfully!!`);
+            } else {
+                toast.error(data?.message);
+            }
+
+
+        } catch (error) {
+            console.log({ error });
+            toast.error("Some error occured");
+        }
+    }
+
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
             <div className="max-w-2xl mx-auto bg-white shadow-md rounded p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-700">Add New Color</h2>
+                <h2 className="text-2xl font-bold mb-4 text-gray-700">{id ? "Update" : "Add New"} Color</h2>
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-600">
@@ -71,12 +100,12 @@ const AddUpdateColorPage = () => {
                         ) : null}
                     </div>
 
-                    <button
+                    <SubmitButtonComp
+                        label={id ? "Update Color" : "Save Color"}
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow"
-                    >
-                        Save Color
-                    </button>
+                        isLoading={id ? isUpdateLoading : isAddLoading}
+                        onClick={formik.handleSubmit}
+                    />
                 </form>
             </div>
         </div>

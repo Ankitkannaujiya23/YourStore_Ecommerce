@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const handleColorsApi = createApi({
     reducerPath: 'handleColorsApi',
@@ -18,16 +18,16 @@ export const handleColorsApi = createApi({
         }),
         addColor: builder.mutation({
             query: (request) => ({
-                url: 'colors',
+                url: 'color',
                 method: 'POST',
                 body: request
             })
         }),
         updateColor: builder.mutation({
             query: ({ id, ...request }) => ({
-                url: `color${id}`,
+                url: `color/${id}`,
                 method: 'PUT',
-                body, request
+                body: request
             })
         }),
         deleteColor: builder.mutation({
