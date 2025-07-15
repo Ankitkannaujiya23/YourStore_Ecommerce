@@ -21,6 +21,7 @@ import ProductDetailPage from './components/features/product/productDetailsPage/
 import AddUpdateColorPage from './components/features/colors/AddUpdateColorPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AddUpdateSizePage from './components/features/sizes/AddUpdateSizePage';
 
 function App() {
   // const router=createBrowserRouter([
@@ -100,6 +101,14 @@ function App() {
           <Route path='/updateColor/:id' element={<PrivateRoute allowedRoles={['admin']}>
             <AddUpdateColorPage /></PrivateRoute>} >
           </Route>
+
+          <Route path='/addSize' element={<PrivateRoute allowedRoles={['admin']}>
+            <AddUpdateSizePage /></PrivateRoute>} >
+          </Route>
+          <Route path='/updateSize/:id' element={<PrivateRoute allowedRoles={['admin']}>
+            <AddUpdateSizePage /></PrivateRoute>} >
+          </Route>
+
           <Route path='/addCategory' element={<PrivateRoute allowedRoles={['admin']}>
             <AddUpdateCategoryPage />
           </PrivateRoute>} />

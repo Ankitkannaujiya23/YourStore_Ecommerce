@@ -3,53 +3,52 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 import SubmitButtonComp from "../../utilComponents/SubmitButtonComp";
-import { useAddColorMutation, useGetColorByIdQuery, useUpdateColorMutation } from "./handleColorsApi";
 import { toast } from "react-toastify";
+import { useAddSizeMutation, useGetSizeByIdQuery, useUpdateSizeMutation } from "./handleSizesApi";
 
-const AddUpdateColorPage = () => {
+const AddUpdateSizePage = () => {
     const defaultValues = {
         name: "",
-        code: "#000000",
     }
     const { id } = useParams();
     const [initialValues, setInitialValues] = useState(defaultValues);
-    const [addColor, { isLoading: isAddLoading, isError: isAddError }] = useAddColorMutation();
-    const [updateColor, { isLoading: isUpdateLoading, isError: isUpdateError }] = useUpdateColorMutation();
+    const [addSize, { isLoading: isAddLoading, isError: isAddError }] = useAddSizeMutation();
+    const [updateSize, { isLoading: isUpdateLoading, isError: isUpdateError }] = useUpdateSizeMutation();
 
-    const { data: colorData, isLoading: colorLoading, isError: colorLoadingError } = useGetColorByIdQuery(id, { skip: !id });
+    const { data: sizeData, isLoading: colorLoading, isError: colorLoadingError } = useGetSizeByIdQuery(id, { skip: !id });
 
     useEffect(() => {
         if (id && colorData?.statusCode === 200) {
             const res = colorData.response[0];
-            setInitialValues({ name: res.name, code: res.hex_code });
+            setInitialValues({ name: res.name });
         }
-    }, [id, colorData]);
+    }, [id, sizeData]);
 
 
     const formik = useFormik({
         initialValues,
         enableReinitialize: true,
         validationSchema: Yup.object({
-            name: Yup.string().required("Color name is required"),
-            code: Yup.string().required("Color code is required"),
+            name: Yup.string().required("Size is required"),
+            // code: Yup.string().required("Color code is required"),
         }),
         onSubmit: (values) => {
-            handleAddUpdateColor();
+            handleAddUpdateSize();
         },
     });
 
-    const handleAddUpdateColor = async () => {
+    const handleAddUpdateSize = async () => {
         const { values } = formik;
         try {
             const model = {
                 name: values.name,
-                hexCode: values.code
+                // hexCode: values.code
             }
             const response = id ? await updateColor({ id, ...model }) : await addColor(model);
             const data = response.data;
             if (data.statusCode === 200 || data.statusCode === 201) {
 
-                toast.success(`Color ${data.statusCode === 201 ? "Added" : "Updated"} Successfully!!`);
+                toast.success(`Size ${data.statusCode === 201 ? "Added" : "Updated"} Successfully!!`);
             } else {
                 toast.error(data?.message);
             }
@@ -65,11 +64,11 @@ const AddUpdateColorPage = () => {
     return (
         <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
             <div className="max-w-2xl mx-auto bg-white shadow-md rounded p-6">
-                <h2 className="text-2xl font-bold mb-4 text-gray-700">{id ? "Update" : "Add New"} Color</h2>
+                <h2 className="text-2xl font-bold mb-4 text-gray-700">{id ? "Update" : "Add New"} Size</h2>
                 <form onSubmit={formik.handleSubmit} className="space-y-4">
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-600">
-                            Color Name
+                            Size Name
                         </label>
                         <input
                             type="text"
@@ -86,28 +85,8 @@ const AddUpdateColorPage = () => {
                         ) : null}
                     </div>
 
-                    <div>
-                        <label htmlFor="code" className="block text-sm font-medium text-gray-600">
-                            Color Code
-                        </label>
-                        <div className="flex items-center space-x-4 mt-1">
-                            <input
-                                type="color"
-                                name="code"
-                                id="code"
-                                onChange={formik.handleChange}
-                                value={formik.values.code}
-                                className="w-12 h-10 border border-gray-300 rounded"
-                            />
-                            <span className="text-gray-700">{formik.values.code}</span>
-                        </div>
-                        {formik.touched.code && formik.errors.code ? (
-                            <p className="text-red-500 text-sm mt-1">{formik.errors.code}</p>
-                        ) : null}
-                    </div>
-
                     <SubmitButtonComp
-                        label={id ? "Update Color" : "Save Color"}
+                        label={id ? "Update Size" : "Save Size"}
                         type="submit"
                         isLoading={id ? isUpdateLoading : isAddLoading}
                         onClick={formik.handleSubmit}
@@ -118,4 +97,4 @@ const AddUpdateColorPage = () => {
     );
 };
 
-export default AddUpdateColorPage;
+export default AddUpdateSizePage;

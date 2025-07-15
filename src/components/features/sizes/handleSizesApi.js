@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const handleColorsApi = createApi({
+export const handleSizesApi = createApi({
     reducerPath: 'handleColorsApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
@@ -13,29 +13,29 @@ export const handleColorsApi = createApi({
         }
     }),
     endpoints: (builder) => ({
-        getColors: builder.query({
-            query: () => 'colors'
+        getSizes: builder.query({
+            query: () => 'sizes'
         }),
-        getColorById: builder.query({
-            query: (id) => `color/${id}`
+        getSizeById: builder.query({
+            query: (id) => `size/${id}`
         }),
-        addColor: builder.mutation({
+        addSize: builder.mutation({
             query: (request) => ({
-                url: 'color',
+                url: 'size',
                 method: 'POST',
                 body: request
             })
         }),
-        updateColor: builder.mutation({
+        updateSize: builder.mutation({
             query: ({ id, ...request }) => ({
-                url: `color/${id}`,
+                url: `size/${id}`,
                 method: 'PUT',
                 body: request
             })
         }),
-        deleteColor: builder.mutation({
+        deleteSize: builder.mutation({
             query: (id) => ({
-                url: `color/${id}`,
+                url: `size/${id}`,
                 method: 'DELETE'
             })
         })
@@ -43,4 +43,4 @@ export const handleColorsApi = createApi({
 });
 
 
-export const { useGetColorsQuery, useGetColorByIdQuery, useAddColorMutation, useUpdateColorMutation, useDeleteColorMutation } = handleColorsApi;
+export const { useGetSizesQuery, useGetSizeByIdQuery, useAddSizeMutation, useUpdateSizeMutation, useDeleteSizeMutation } = handleSizesApi;
