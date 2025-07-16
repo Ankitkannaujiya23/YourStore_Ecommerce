@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const handleSizesApi = createApi({
-    reducerPath: 'handleColorsApi',
+    reducerPath: 'handleSizesApi',
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
         prepareHeaders: (headers, { getState }) => {

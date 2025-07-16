@@ -18,8 +18,8 @@ const AddUpdateSizePage = () => {
     const { data: sizeData, isLoading: colorLoading, isError: colorLoadingError } = useGetSizeByIdQuery(id, { skip: !id });
 
     useEffect(() => {
-        if (id && colorData?.statusCode === 200) {
-            const res = colorData.response[0];
+        if (id && sizeData?.statusCode === 200) {
+            const res = sizeData.response[0];
             setInitialValues({ name: res.name });
         }
     }, [id, sizeData]);
@@ -44,7 +44,7 @@ const AddUpdateSizePage = () => {
                 name: values.name,
                 // hexCode: values.code
             }
-            const response = id ? await updateColor({ id, ...model }) : await addColor(model);
+            const response = id ? await updateSize({ id, ...model }) : await addSize(model);
             const data = response.data;
             if (data.statusCode === 200 || data.statusCode === 201) {
 
