@@ -7,6 +7,8 @@ import Category from "../components/features/category/Category";
 
 const AdminPanel = () => {
 
+
+
   return (
     <div className="bg-gray-100 min-h-screen p-4 sm:p-6">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

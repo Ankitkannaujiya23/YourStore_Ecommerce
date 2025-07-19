@@ -2,23 +2,37 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import { categoryValidationSchema } from "../../../validationSchema/ValidationSchema";
-import { useAddCategoryMutation } from "./categoryApi";
+import { useAddCategoryMutation, useGetCategoryByIdQuery, useUpdateCategoryMutation } from "./categoryApi";
 import CategoryLoader from "../../loaders/CategoryLoader";
 import { PopupAlertBox } from "../../sweetAlertBox/CustomAlert";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const AddUpdateCategoryPage = () => {
-  const [preview, setPreview] = useState(null);
-  const [addCategory, { isLoading, isError }] = useAddCategoryMutation();
-  const { id } = useSearchParams();
-
-  const initialValues = {
+  const defaultValues = {
     name: "",
     image: null,
   }
+  const { id } = useParams();
+  const [preview, setPreview] = useState(null);
+  const [initialValues, setInitialValues] = useState(defaultValues);
+  const [addCategory, { isLoading, isError }] = useAddCategoryMutation();
+  const [updateCategory, { isLoading: isUpdateLoading }] = useUpdateCategoryMutation();
+  const { data: categoryData } = useGetCategoryByIdQuery(id, { skip: !id });
+
+
+  useEffect(() => {
+    if (id && categoryData?.statusCode === 200) {
+      const category = categoryData?.data?.find(item => item.id == id);
+      setInitialValues(prev => ({ ...prev, name: category?.name }))
+    }
+  }, [categoryData, id]);
+
 
   const formik = useFormik({
     initialValues,
+    enableReinitialize: true,
     validationSchema: categoryValidationSchema,
     onSubmit: (values) => {
       submitForm(values);
@@ -40,11 +54,8 @@ const AddUpdateCategoryPage = () => {
     try {
 
 
-      //const formData = new FormData();
-      // formData.append("name", values.name);
-      // formData.append("image", values.image);
       const model = { name: values.name };
-      const response = await addCategory(model);
+      const response = id ? await updateCategory({ id, ...model }) : await addCategory(model);
       if (response.data.statusCode === 200 || response.data.statusCode === 201) {
         const alertData = { isShowAlert: true, isSuccess: true, message: response.data.message, timer: 1500 }
         PopupAlertBox(alertData);
@@ -68,7 +79,7 @@ const AddUpdateCategoryPage = () => {
         className="max-w-md mt-5 mx-auto p-4 bg-white rounded-xl shadow-lg space-y-4"
       >
         <h2 className="text-2xl font-bold text-center text-purple-600">
-          Add Category
+          {id ? "Update" : "Add"} Category
         </h2>
 
         <div>
@@ -120,7 +131,7 @@ const AddUpdateCategoryPage = () => {
           type="submit"
           className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-md font-semibold"
         >
-          Add Category
+          {id ? "Update" : "Add"} Category
         </button>
       </form>
 

@@ -21,10 +21,10 @@ export const ResetPasswordForm = () => {
         try {
             const model = { email: formik.values.email };
             const res = await forgotPassword(model);
-            if (res.data.statusCode === 200) {
-                const alertData = { isShowAlert: true, isSuccess: true, message: res.data.message, timer: 1500 }
-                PopupAlertBox(alertData);
-            }
+
+            const alertData = { isShowAlert: true, isSuccess: res.data.statusCode === 200 ? true : false, message: res.data.message, timer: 1500 }
+            PopupAlertBox(alertData);
+
         } catch (error) {
             console.log({ error });
             const alertData = { isShowAlert: true, isSuccess: false, message: error.message, timer: 1500 }
