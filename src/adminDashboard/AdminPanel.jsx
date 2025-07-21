@@ -71,14 +71,14 @@ const AdminPanel = () => {
               </thead>
               <tbody>
                 {[
-                  { name: "Premium Headphones", category: "Electronics", price: "$299.99", stock: 45, status: "Active" },
-                  { name: "Smart Watch X1", category: "Wearables", price: "$199.99", stock: 18, status: "Low Stock" },
-                  { name: "Wireless Mouse", category: "Accessories", price: "$49.99", stock: 120, status: "Active" },
+                  { name: "Premium Headphones", category: "Electronics", price: "299.99", stock: 45, status: "Active" },
+                  { name: "Smart Watch X1", category: "Wearables", price: "199.99", stock: 18, status: "Low Stock" },
+                  { name: "Wireless Mouse", category: "Accessories", price: "49.99", stock: 120, status: "Active" },
                 ].map((product, index) => (
                   <tr key={index} className="border-b">
                     <td className="p-2">{product.name}</td>
                     <td className="p-2">{product.category}</td>
-                    <td className="p-2">{product.price}</td>
+                    <td className="p-2">₹ {product.price}</td>
                     <td className="p-2">{product.stock}</td>
                     <td className="p-2">
                       <span

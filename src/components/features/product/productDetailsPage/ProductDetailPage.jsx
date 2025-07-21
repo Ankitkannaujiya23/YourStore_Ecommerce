@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useGetProductByIdQuery } from '../productFeature/productsApi';
 import { useParams } from 'react-router-dom';
 import ProductLoader from '../../../loaders/ProductLoader';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemIntoCart } from '../../cart/CartSlice';
 
 const ProductDetailPage = () => {
 
@@ -11,12 +13,20 @@ const ProductDetailPage = () => {
     const { id } = useParams();
     const { data, isLoading, isError } = useGetProductByIdQuery(id);
     const product = data?.statusCode === 200 ? data.data[0] : {};
+    const dispatch = useDispatch();
+    const cartItem = useSelector(state => state.CartSlice);
+    console.log({ cartItem });
 
     const handleQuantity = (type) => {
         if (type === 'inc') setQuantity(quantity + 1);
         if (type === 'dec' && quantity > 1) setQuantity(quantity - 1);
     };
 
+    const handleAddToCart = () => {
+        const selectedProduct = { ...product };
+        selectedProduct.quantity = quantity;
+        dispatch(addItemIntoCart(selectedProduct));
+    }
 
 
     return (
@@ -27,7 +37,7 @@ const ProductDetailPage = () => {
                 <div className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-10">
                     {/* Left: Product Images */}
                     <div>
-                        <div className="relative w-full aspect-square bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-500">
+                        <div className="relative w-full aspect-square  flex items-center justify-center text-4xl font-bold text-gray-500">
                             <img
                                 src={product?.image[0]}
                                 alt="Product"
@@ -50,7 +60,7 @@ const ProductDetailPage = () => {
                     {/* Right: Product Info */}
                     <div>
                         <h1 className="text-3xl font-bold">{product?.name}</h1>
-                        <p className="text-2xl text-gray-700 mt-2">${product?.price}</p>
+                        <p className="text-2xl text-gray-700 mt-2">₹{product?.price}</p>
                         <span className={`text-sm ${product?.stock > 0 ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"} font-semibold px-2 py-1 rounded inline-block mt-2`}>
                             {product?.stock > 0 ? "In" : "Out of"} Stock
                         </span>
@@ -115,7 +125,7 @@ const ProductDetailPage = () => {
 
                         {/* Add to Cart */}
                         <div className="mt-6">
-                            <button className="w-full py-3 bg-indigo-100 text-indigo-700 font-semibold rounded hover:bg-indigo-200">
+                            <button onClick={handleAddToCart} className="w-full py-3 bg-indigo-100 text-indigo-700 font-semibold rounded hover:bg-indigo-200">
                                 🛒 Add to Cart
                             </button>
                         </div>
