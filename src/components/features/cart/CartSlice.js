@@ -7,24 +7,30 @@ const CartSlice = createSlice({
     },
     reducers: {
         addItemIntoCart(state, action) {
-            const existingItem = state.cartItems.find(item => item.productId === action.payload.productId);
+            const existingItem = state.cartItems.find(item => item.id === action.payload.id);
             if (existingItem) {
-                existing.quantity += action.payload.quantity;
+                existingItem.quantity += action.payload.quantity;
             } else {
-                state.items.push(action.payload);
+                state.cartItems.push(action.payload);
             }
         },
         removeItemFromCart(state, action) {
-            //state.cart= state.cart.filter(item=> item.id !=action.payload);
-            let index = state.cartItems.findIndex(row => row.id == action.payload.id);
-            state.cartItems.splice(index, 1);
+            state.cartItems = state.cartItems.filter(item => item.id != action.payload);
+            // let index = state.cartItems.findIndex(row => row.id == action.payload.id);
+            // state.cartItems.splice(index, 1);
         },
-        updateItemIntoCart(state, action) {
-            let index = state.cartItems.findIndex(row => row.id == action.payload.id);
-            state.cartItems[index] = action.payload;
+        updateQuantity(state, action) {
+            let product = state.cartItems.find(row => row.id == action.payload.id);
+            if (product) product.quantity = action.payload.quantity;
+        },
+        setCartItemsFromBackend(state, action) {
+            state.cartItems = action.payload;
+        },
+        clearCart(state, action) {
+            state.cartItems = [];
         }
     }
 });
 
-export const { addItemIntoCart, removeItemFromCart, updateItemIntoCart } = CartSlice.actions;
+export const { addItemIntoCart, removeItemFromCart, updateQuantity, clearCart } = CartSlice.actions;
 export default CartSlice.reducer;

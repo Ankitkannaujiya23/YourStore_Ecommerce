@@ -1,4 +1,4 @@
-import React,{ Fragment }  from 'react';
+import React, { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,16 +19,16 @@ function classNames(...classes) {
 const Navbar = () => {
 
 
-const cartList= useSelector(state=> state.CartSlice.cartItems);
-const dispatch= useDispatch();
-const navigate=useNavigate();
-const isLoggedIn=useSelector(state=> state.AuthSlice.isLoggedIn);
+  const cartList = useSelector(state => state.CartSlice.cartItems);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(state => state.AuthSlice.isLoggedIn);
 
-const handleLogout=()=>{
-  dispatch(logoutUser());
-  navigate('/login');
-}
-  return(
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    navigate('/login');
+  }
+  return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
@@ -74,16 +74,16 @@ const handleLogout=()=>{
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <Link to='/cart'>
-                <button
-                  type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                >
-                  <span className="absolute -inset-1.5" />
-                  <span className="sr-only">View notifications</span>
-                  <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-                  </Link>
-                 <span className="inline-flex items-center rounded-md bg-blue-50 px-1 py-0 mb-7 -ml-3 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 z-40">{cartList.length > 0?cartList.length : ''} </span>
+                  <button
+                    type="button"
+                    className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                  >
+                    <span className="absolute -inset-1.5" />
+                    <span className="sr-only">View notifications</span>
+                    <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+                  </button>
+                </Link>
+                <span className="inline-flex items-center rounded-md bg-blue-50 px-1 py-0 mb-7 -ml-3 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10 z-40">{cartList.length > 0 ? cartList.length : ''} </span>
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
@@ -108,29 +108,29 @@ const handleLogout=()=>{
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    {isLoggedIn &&
-                    <>
-                    <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            href="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Your Profile
-                          </a>
-                        )}
-                      </Menu.Item>
-                     
-                      <Menu.Item>
-                        {({ active }) => (
-                          <a
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                            onClick={handleLogout}
-                          >
-                            Sign out
-                          </a>
-                        )}
-                      </Menu.Item></>}
+                      {isLoggedIn &&
+                        <>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              >
+                                Your Profile
+                              </a>
+                            )}
+                          </Menu.Item>
+
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                onClick={handleLogout}
+                              >
+                                Sign out
+                              </a>
+                            )}
+                          </Menu.Item></>}
                       <Menu.Item>
                         {({ active }) => (
                           <a

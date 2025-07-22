@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import ProductLoader from '../../../loaders/ProductLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemIntoCart } from '../../cart/CartSlice';
+import { toast } from 'react-toastify';
 
 const ProductDetailPage = () => {
 
@@ -26,6 +27,7 @@ const ProductDetailPage = () => {
         const selectedProduct = { ...product };
         selectedProduct.quantity = quantity;
         dispatch(addItemIntoCart(selectedProduct));
+        toast.success("Product Added into the cart")
     }
 
 

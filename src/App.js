@@ -81,7 +81,7 @@ function App() {
           <Route path='/reset-password' element={<NewPasswordForm />} />
           <Route path='/productDetails/:id' element={<ProductDetailPage />} />
           <Route path='/sidebarMenu' element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
-          <Route path='/cart' element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<PrivateRoute><CheckoutPage /></PrivateRoute>} />
           <Route path='/orderSuccess' element={<PrivateRoute><OrderSuccessPage /></PrivateRoute>} />
 
