@@ -9,7 +9,6 @@ import { getQuantityDropdownList, quantityDropdownList } from '../../../utilityF
 
 const Cart = ({ isFromCheckout, handleBuyNow }) => {
 
-    const [open, setOpen] = useState(true);
     const [products, setProducts] = useState([]);
     const [quantityList, setQuantityList] = useState([]);
     const CartListData = useSelector(state => state.CartSlice.cartItems);
@@ -122,7 +121,7 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
                             <button
                                 type="button"
                                 className="font-medium text-indigo-600 hover:text-indigo-500"
-                                onClick={() => setOpen(false)}
+                                onClick={() => navigate('/')}
                             >
                                 Continue Shopping
                                 <span aria-hidden="true"> &rarr;</span>
