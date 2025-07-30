@@ -5,6 +5,7 @@ import ProductLoader from '../../../loaders/ProductLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemIntoCart } from '../../cart/CartSlice';
 import { toast } from 'react-toastify';
+import { useAddToCartMutation } from '../../cart/cartApi';
 
 const ProductDetailPage = () => {
 
@@ -13,21 +14,38 @@ const ProductDetailPage = () => {
     const [quantity, setQuantity] = useState(1);
     const { id } = useParams();
     const { data, isLoading, isError } = useGetProductByIdQuery(id);
+    const [addItemIntoCart, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
+
     const product = data?.statusCode === 200 ? data.data[0] : {};
     const dispatch = useDispatch();
     const cartItem = useSelector(state => state.CartSlice);
-    console.log({ cartItem });
+    const AuthUser = useSelector(state => state.AuthSlice);
+    console.log({ cartItem, AuthUser });
 
     const handleQuantity = (type) => {
         if (type === 'inc') setQuantity(quantity + 1);
         if (type === 'dec' && quantity > 1) setQuantity(quantity - 1);
     };
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         const selectedProduct = { ...product };
         selectedProduct.quantity = quantity;
-        dispatch(addItemIntoCart(selectedProduct));
-        toast.success("Product Added into the cart")
+        const model = {
+            userId: AuthUser.user.userid,
+            productId: selectedProduct.id,
+            quantity: selectedProduct.quantity
+        }
+        console.log({ model });
+        try {
+            const res = await addItemIntoCart(model);
+            console.log({res});
+            
+            dispatch(addItemIntoCart(selectedProduct));
+            toast.success("Product Added into the cart")
+        } catch (error) {
+
+        }
+
     }
 
 

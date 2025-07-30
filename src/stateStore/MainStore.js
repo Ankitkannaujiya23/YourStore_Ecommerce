@@ -14,6 +14,7 @@ import { categoryApi } from "../components/features/category/categoryApi";
 import { forgotPasswordApi } from "../components/resetPassword/forgotPasswordApi";
 import { handleColorsApi } from "../components/features/colors/handleColorsApi";
 import { handleSizesApi } from "../components/features/sizes/handleSizesApi";
+import { cartApi } from "../components/features/cart/cartApi";
 
 const persistConfig = {
   key: "root",
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   [forgotPasswordApi.reducerPath]: forgotPasswordApi.reducer,
   [handleColorsApi.reducerPath]: handleColorsApi.reducer,
   [handleSizesApi.reducerPath]: handleSizesApi.reducer,
+  [cartApi.reducerPath]: cartApi.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -42,7 +44,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware, forgotPasswordApi.middleware, handleColorsApi.middleware, handleSizesApi.middleware),
+    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware, forgotPasswordApi.middleware, handleColorsApi.middleware, handleSizesApi.middleware, cartApi.middleware),
 });
 
 export const persistor = persistStore(store);
