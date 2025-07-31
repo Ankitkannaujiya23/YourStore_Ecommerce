@@ -3,16 +3,26 @@ import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { LoginOrSignupSchema } from '../../../validationSchema/ValidationSchema';
 import { useFormik } from 'formik';
 import { API } from '../../../services/apiConfig';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PopupAlertBox } from '../../../components/sweetAlertBox/CustomAlert';
 import { useLoginMutation } from '../authApi';
 import { setUser } from '../AuthSlice';
+import { useSyncCartMutation } from '../../../components/features/cart/cartApi';
 const Login = () => {
     const [formData, setFormData] = useState({ password: "", email: "", isUserSignup: false });
     const [submitBtnValue, setSubmitBtnValue] = useState('Log in');
     const [login, { isLoading, error }] = useLoginMutation();
+    const [syncCart, { isLoading: cartLoading }] = useSyncCartMutation();
+    const { cartItems } = useSelector(state => state.CartSlice);
+    const user = useSelector(state => state.AuthSlice.user);
+
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+
+
+
     const { values, handleChange, handleBlur, handleSubmit, errors, touched, isValid, isSubmitting } = useFormik({
         initialValues: formData,
         validationSchema: LoginOrSignupSchema(formData.isUserSignup),
@@ -35,6 +45,11 @@ const Login = () => {
             if (data.statusCode === 200) {
                 const alertData = { isShowAlert: true, isSuccess: true, message: data.message, timer: 1500 }
                 dispatch(setUser(data.Data));
+                const cartModel = {
+                    userId: data.Data.userid,
+                    cart: cartItems
+                }
+                const syncedCart = await syncCart(cartModel);
                 PopupAlertBox(alertData)
 
 
