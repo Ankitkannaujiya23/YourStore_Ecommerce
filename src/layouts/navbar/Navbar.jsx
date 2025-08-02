@@ -4,6 +4,7 @@ import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outl
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../mainPages/login-auth/AuthSlice';
+import { clearCart } from '../../components/features/cart/CartSlice';
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -26,6 +27,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(clearCart());
     navigate('/login');
   }
   return (

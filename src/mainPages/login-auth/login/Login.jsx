@@ -8,6 +8,7 @@ import { PopupAlertBox } from '../../../components/sweetAlertBox/CustomAlert';
 import { useLoginMutation } from '../authApi';
 import { setUser } from '../AuthSlice';
 import { useSyncCartMutation } from '../../../components/features/cart/cartApi';
+import { addItemIntoCart, clearCart } from '../../../components/features/cart/CartSlice';
 const Login = () => {
     const [formData, setFormData] = useState({ password: "", email: "", isUserSignup: false });
     const [submitBtnValue, setSubmitBtnValue] = useState('Log in');
@@ -43,16 +44,18 @@ const Login = () => {
             const loginApiResponse = await login(formData);
             const { data } = loginApiResponse;
             if (data.statusCode === 200) {
+                dispatch(clearCart());
                 const alertData = { isShowAlert: true, isSuccess: true, message: data.message, timer: 1500 }
                 dispatch(setUser(data.Data));
-                const cartModel = {
-                    userId: data.Data.userid,
-                    cart: cartItems
+                const syncedCart = await syncCart({ cart: cartItems });
+                if (syncedCart.data.statusCode === 200) {
+                    const totalCartItems = syncedCart.data.response;
+                    for (let i = 0; i < totalCartItems.length; i++) {
+                        dispatch(addItemIntoCart(totalCartItems[i]));
+                    }
                 }
-                const syncedCart = await syncCart(cartModel);
+
                 PopupAlertBox(alertData)
-
-
                 navigate({
                     pathname: '/',
                     state: data?.Data

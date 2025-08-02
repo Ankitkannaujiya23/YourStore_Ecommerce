@@ -16,7 +16,7 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     useEffect(() => {
-        const list = getQuantityDropdownList(10);
+        const list = getQuantityDropdownList(1000);
         setQuantityList(list);
     }, []);
     useEffect(() => {
@@ -50,7 +50,7 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
                     </h2>
                     <div className="flow-root ">
                         <ul role="list" className="-my-6 divide-y divide-gray-200">
-                            {products.map((product) => (
+                            {products?.map((product) => (
                                 <li key={product.id} className="flex py-6">
                                     <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                         <img
