@@ -83,7 +83,7 @@ function App() {
           <Route path='/sidebarMenu' element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<PrivateRoute allowedRoles={['admin']}><CheckoutPage /></PrivateRoute>} />
-          <Route path='/orderSuccess' element={<PrivateRoute><OrderSuccessPage /></PrivateRoute>} />
+          <Route path='/orderSuccess' element={<OrderSuccessPage />} />
 
           <Route path='/addProduct' element={<PrivateRoute allowedRoles={['admin']}>
             <AddProductPage />

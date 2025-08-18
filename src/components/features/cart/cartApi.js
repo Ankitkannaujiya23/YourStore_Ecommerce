@@ -2,16 +2,16 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const cartApi = createApi({
     reducerPath: "cartApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
-        prepareHeaders: (headers, { getState }) => {
-            const token = getState().AuthSlice.user.token;
-            if (token) {
-                headers.set('token', token);
+        baseQuery: fetchBaseQuery({
+            baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
+            prepareHeaders: (headers, { getState }) => {
+                const token = getState().AuthSlice.user.token;
+                if (token) {
+                    headers.set('token', token);
+                }
+                return headers;
             }
-            return headers;
-        }
-    }),
+        }),
     endpoints: (builder) => ({
         syncCart: builder.mutation({
             query: (request) => ({

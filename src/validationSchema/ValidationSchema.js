@@ -37,7 +37,8 @@ export const AddOrUpdateSchema = () =>
 export const addressDetailsValidation = yup.object({
   fullName: yup.string().required("Enter you fullname."),
   email: yup.string().email().required("Enter your email."),
-  streetAddress: yup.string().required("Enter your street and local address"),
+  address1: yup.string().required("Enter your address 1"),
+  address2: yup.string().required("Enter your address 2"),
   city: yup.string().required("Enter your city"),
   mobileNo: yup
     .string()

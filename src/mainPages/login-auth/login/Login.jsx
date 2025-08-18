@@ -9,11 +9,15 @@ import { useLoginMutation } from '../authApi';
 import { setUser } from '../AuthSlice';
 import { useSyncCartMutation } from '../../../components/features/cart/cartApi';
 import { addItemIntoCart, clearCart } from '../../../components/features/cart/CartSlice';
+import { getAddress } from '../../../services/addressApi';
+import { setAddress } from '../../../stateStore/storeSlices/AddressSlice';
+import store from '../../../stateStore/MainStore';
 const Login = () => {
     const [formData, setFormData] = useState({ password: "", email: "", isUserSignup: false });
     const [submitBtnValue, setSubmitBtnValue] = useState('Log in');
     const [login, { isLoading, error }] = useLoginMutation();
     const [syncCart, { isLoading: cartLoading }] = useSyncCartMutation();
+
     const { cartItems } = useSelector(state => state.CartSlice);
     const user = useSelector(state => state.AuthSlice.user);
 
@@ -54,12 +58,15 @@ const Login = () => {
                         dispatch(addItemIntoCart(totalCartItems[i]));
                     }
                 }
+                // ✅ Login ke baad address fetch karcna
+                store.dispatch(getAddress.initiate());
 
                 PopupAlertBox(alertData)
                 navigate({
                     pathname: '/',
                     state: data?.Data
                 });
+
 
             } else {
                 navigate('/login');

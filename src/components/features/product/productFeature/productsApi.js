@@ -5,15 +5,15 @@ import { useSelector } from "react-redux";
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5001/api",
+    baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().AuthSlice.user.token;
-      if (token) {
-        headers.set("token", token);
-      }
-      return headers;
-    },
-  }),
+        const token = getState().AuthSlice.user.token;
+        if (token) {
+            headers.set('token', token);
+        }
+        return headers;
+    }
+}),
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/products",
