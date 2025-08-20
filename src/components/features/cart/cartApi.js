@@ -2,17 +2,20 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const cartApi = createApi({
     reducerPath: "cartApi",
-        baseQuery: fetchBaseQuery({
-            baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
-            prepareHeaders: (headers, { getState }) => {
-                const token = getState().AuthSlice.user.token;
-                if (token) {
-                    headers.set('token', token);
-                }
-                return headers;
+    baseQuery: fetchBaseQuery({
+        baseUrl: process.env.BASE_URL || "http://localhost:5001/api/",
+        prepareHeaders: (headers, { getState }) => {
+            const token = getState().AuthSlice.user.token;
+            if (token) {
+                headers.set('token', token);
             }
-        }),
+            return headers;
+        }
+    }),
     endpoints: (builder) => ({
+        fetchCart: builder.query({
+            query: () => '/cart/fetchcart'
+        }),
         syncCart: builder.mutation({
             query: (request) => ({
                 url: '/cart/sync',
@@ -44,4 +47,4 @@ export const cartApi = createApi({
     })
 });
 
-export const { useSyncCartMutation, useAddToCartMutation, useUpdateCartMutation, useRemoveCartItemMutation } = cartApi;
+export const { useSyncCartMutation, useFetchCartQuery, useAddToCartMutation, useUpdateCartMutation, useRemoveCartItemMutation } = cartApi;

@@ -15,6 +15,8 @@ import { MdEdit, MdOutlineDeleteOutline } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { useDeleteCategoryMutation } from '../category/categoryApi'
 import { useCreateOrderMutation } from '../orders/orderApi'
+import { clearCart,setCartItemsFromBackend } from '../cart/CartSlice'
+import { useFetchCartQuery } from '../cart/cartApi'
 
 const CheckoutPage = () => {
 
@@ -24,13 +26,13 @@ const CheckoutPage = () => {
     const [addAddress, { isLoading: addLoding }] = useAddAddressMutation();
     const [updateAddress, { isLoading: updateLoding }] = useUpdateAddressMutation();
     const [createOrder, { isLoading: orderCreating }] = useCreateOrderMutation();
+    const [fetchCart, { isLoading: fetchingCart }] = useFetchCartQuery();
     const [removeAddress] = useRemoveAddressMutation();
     const { data: addressData } = useGetAddressQuery();
     const AddressList = addressData?.response;
     console.log({ AddressList });
     const cartItems = useSelector(state => state.CartSlice.cartItems);
     const currentOrder = useSelector(state => state.OrderSlice.currentOrderPlaced)
-
 
     const dispatch = useDispatch();
     let navigate = useNavigate();
@@ -93,6 +95,9 @@ const CheckoutPage = () => {
                 }
                 const res = await createOrder(model);
                 if (res.data.statusCode === 200) {
+                    dispatch(clearCart());
+                    const resCartData = await fetchCart();
+                    dispatch(setCartItemsFromBackend(resCartData.data.response || []));
                     navigate(`/orderSuccess/${res.data?.response[0]?.id}`);
                     PopupAlertBox({ isSuccess: true, message: "Your order successfully placed.", timer: 3000 });
                 } else toast.error(res.data.message);
