@@ -19,8 +19,16 @@ export const orderApi = createApi({
                 method: "POST",
                 body: req
             })
+        }),
+        getOrders: builder.mutation({
+            query: (req) => ({
+                url: '/orders/getorders',
+                method: "POST",
+                body: req
+            })
+
         })
     })
 })
 
-export const { useCreateOrderMutation } = orderApi;
+export const { useCreateOrderMutation, useGetOrdersMutation } = orderApi;

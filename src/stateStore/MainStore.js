@@ -18,6 +18,7 @@ import { handleSizesApi } from "../components/features/sizes/handleSizesApi";
 import { cartApi } from "../components/features/cart/cartApi";
 import { addressApi } from "../services/addressApi";
 import { orderApi } from "../components/features/orders/orderApi";
+import { usersApi } from "../services/usersApi";
 
 const persistConfig = {
   key: "root",
@@ -43,6 +44,7 @@ const rootReducer = combineReducers({
   [cartApi.reducerPath]: cartApi.reducer,
   [addressApi.reducerPath]: addressApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
+  [usersApi.reducerPath]: usersApi.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -50,7 +52,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware, forgotPasswordApi.middleware, handleColorsApi.middleware, handleSizesApi.middleware, cartApi.middleware, addressApi.middleware, orderApi.middleware),
+    getDefaultMiddleware().concat(productsApi.middleware, authApi.middleware, categoryApi.middleware, forgotPasswordApi.middleware, handleColorsApi.middleware, handleSizesApi.middleware, cartApi.middleware, addressApi.middleware, orderApi.middleware, usersApi.middleware),
 });
 
 export const persistor = persistStore(store);
