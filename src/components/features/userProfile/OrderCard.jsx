@@ -1,6 +1,7 @@
 import React from "react";
 
 const getStatusColor = (status) => {
+    console.log({ status });
     switch (status) {
         case "delivered":
             return "bg-green-100 text-green-800";
