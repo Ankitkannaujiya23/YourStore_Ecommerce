@@ -62,9 +62,9 @@ const UserProfile = () => {
     useEffect(() => {
         const response = data?.response;
         if (response) {
-            setUser({ ...user, name: response.name, email: response.email, mobile: '6677889900', avatar: response.name.split(" ").map(item => item.charAt(0)[0]) });
+            setUser({ ...user, name: response.name, email: response.email, mobile: response.mobileno, avatar: response.name.split(" ").map(item => item.charAt(0)[0]) });
         }
-    }, [data?.response]);
+    }, [data]);
     console.log({ user });
     return (
         <div className="min-h-screen bg-gray-50">

@@ -1,8 +1,22 @@
 import React from "react";
+import { useGetAddressQuery, useRemoveAddressMutation } from "../../../services/addressApi";
+import { toast } from "react-toastify";
 
 const AddressesTab = ({ addresses, setAddresses }) => {
-    const handleRemove = (id) => {
-        setAddresses(addresses.filter((addr) => addr.id !== id));
+    const { data: addressData } = useGetAddressQuery();
+    const AddressList = addressData?.response;
+    const [removeAddress] = useRemoveAddressMutation();
+
+    const handleRemove = async (id) => {
+        try {
+            const res = await removeAddress({ id });
+            if (res.data.statusCode === 200) {
+                toast.success(res.data.message);
+            } else toast.error(res.data.message);
+        } catch (error) {
+            console.log({ error });
+            toast.error(error.message);
+        }
     };
 
     const handleSetDefault = (id) => {
@@ -18,16 +32,17 @@ const AddressesTab = ({ addresses, setAddresses }) => {
             <h3 className="text-xl font-semibold text-gray-900 mb-6">Saved Addresses</h3>
 
             <div className="space-y-4">
-                {addresses.map((addr) => (
+                {AddressList?.map((addr) => (
                     <div
                         key={addr.id}
                         className="bg-white border border-gray-200 rounded-xl p-6 flex justify-between items-center"
                     >
                         <div>
-                            <h4 className="font-semibold">{addr.type} Address</h4>
-                            <p className="text-sm text-gray-600">{addr.name}</p>
-                            <p className="text-sm text-gray-600">{addr.address}</p>
+                            <h4 className="font-semibold">{addr.type ?? 'Home'} Address</h4>
+                            <p className="text-sm text-gray-600">{addr.fullname}</p>
+                            <p className="text-sm text-gray-600">{addr.address_line1}, {addr.address_line2}</p>
                             <p className="text-sm text-gray-600">{addr.city}</p>
+                            <p className="text-sm text-gray-600">{addr.pincode}</p>
                             {addr.isDefault && (
                                 <span className="text-xs text-green-600 font-medium">Default</span>
                             )}

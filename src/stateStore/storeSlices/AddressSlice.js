@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const AddressSlice = createSlice({
     name: "Address_Slice",
     initialState: {
-        AddressList: ["hi"]
+        AddressList: []
     },
     reducers: {
         setAddress: (state, action) => {

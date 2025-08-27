@@ -1,18 +1,56 @@
 import React, { useState } from "react";
 import { FaEdit } from "react-icons/fa";
+import { useUpdateUserDetailsMutation } from "../../../services/usersApi";
+import { toast } from "react-toastify";
 
 const ProfileTab = ({ user, setUser }) => {
     const [formData, setFormData] = useState(user);
     const [wantEdit, setWantEdit] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [updateUser, { isLoading }] = useUpdateUserDetailsMutation();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        setErrors({ ...errors, [e.target.name]: "" }); // reset error on change
     };
 
-    const handleSave = () => {
-        setUser(formData);
-        setWantEdit(false);
-        alert("Profile updated!");
+    const validate = () => {
+        let newErrors = {};
+
+        if (!formData.name || formData.name.trim().length < 3) {
+            newErrors.name = "Full name must be at least 3 characters";
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!formData.email || !emailRegex.test(formData.email)) {
+            newErrors.email = "Please enter a valid email address";
+        }
+
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!formData.mobile || !phoneRegex.test(formData.mobile)) {
+            newErrors.mobile = "Phone number must be 10 digits";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSave = async () => {
+        if (!validate()) return;
+        try {
+
+            setUser(formData);
+            setWantEdit(false);
+            const res = await updateUser(formData);
+            if (res.data.statusCode === 200) {
+                toast.success(res.data.message);
+            } else {
+                toast.error(res.data.message);
+            }
+        } catch (error) {
+            console.log({ error });
+            toast.error(error.message);
+        }
     };
 
     return (
