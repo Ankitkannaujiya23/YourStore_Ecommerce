@@ -14,7 +14,7 @@ const ProductDetailPage = () => {
     const [quantity, setQuantity] = useState(1);
     const { id } = useParams();
     const { data, isLoading, isError } = useGetProductByIdQuery(id);
-    const [addItemIntoCart, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
+    const [addItemIntoCartApi, { isLoading: isAddToCartLoading }] = useAddToCartMutation();
 
     const product = data?.statusCode === 200 ? data.data[0] : {};
     const dispatch = useDispatch();
@@ -35,12 +35,11 @@ const ProductDetailPage = () => {
             productId: selectedProduct.id,
             quantity: selectedProduct.quantity
         }
-        console.log({ model });
+        dispatch(addItemIntoCart(selectedProduct));
         try {
-            const res = await addItemIntoCart(model);
-            console.log({res});
-            
-            dispatch(addItemIntoCart(selectedProduct));
+            const res = await addItemIntoCartApi(model);
+            console.log({ res });
+
             toast.success("Product Added into the cart")
         } catch (error) {
 

@@ -47,9 +47,10 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
         const product = { ...item };
         product.quantity = parseInt(e.target.value);
         try {
+            dispatch(updateQuantity(product));
             const res = await updateCart({ productId: product.id, quantity: product.quantity });
             if (res.data.statusCode === 200) {
-                dispatch(updateQuantity(product));
+                
             } else {
                 toast.error(res.data.message);
             }

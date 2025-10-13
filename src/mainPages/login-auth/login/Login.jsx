@@ -48,11 +48,11 @@ const Login = () => {
             const loginApiResponse = await login(formData);
             const { data } = loginApiResponse;
             if (data.statusCode === 200) {
-                dispatch(clearCart());
                 const alertData = { isShowAlert: true, isSuccess: true, message: data.message, timer: 1500 }
                 dispatch(setUser(data.Data));
                 const syncedCart = await syncCart({ cart: cartItems });
                 if (syncedCart.data.statusCode === 200) {
+                    dispatch(clearCart());
                     const totalCartItems = syncedCart.data.response;
                     for (let i = 0; i < totalCartItems.length; i++) {
                         dispatch(addItemIntoCart(totalCartItems[i]));
