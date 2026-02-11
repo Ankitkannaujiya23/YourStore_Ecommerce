@@ -48,9 +48,9 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
         product.quantity = parseInt(e.target.value);
         try {
             dispatch(updateQuantity(product));
-            const res = await updateCart({ productId: product.id, quantity: product.quantity });
+            const res = await updateCart({ productId: product.product_id, quantity: product.quantity });
             if (res.data.statusCode === 200) {
-                
+
             } else {
                 toast.error(res.data.message);
             }
@@ -112,7 +112,7 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
                                                 </div>
                                                 <div className="flex">
                                                     <button
-                                                        onClick={() => removeProductFromCartList(product.id)}
+                                                        onClick={() => removeProductFromCartList(product.product_id)}
                                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                                     >
                                                         Remove
