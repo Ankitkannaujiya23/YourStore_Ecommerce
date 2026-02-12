@@ -1,1 +1,18 @@
- 
+ .footer-link {
+     position: relative;
+ }
+
+ .footer-link::after {
+     content: "";
+     position: absolute;
+     left: 0;
+     bottom: -3px;
+     width: 0%;
+     height: 2px;
+     background: #10b981;
+     transition: width 0.3s ease;
+ }
+
+ .footer-link:hover::after {
+     width: 100%;
+ }
