@@ -144,8 +144,8 @@ const ProductDetailPage = () => {
 
                         {/* Add to Cart */}
                         <div className="mt-6">
-                            <button onClick={handleAddToCart} className="w-full py-3 bg-indigo-100 text-indigo-700 font-semibold rounded hover:bg-indigo-200">
-                                🛒 Add to Cart
+                            <button onClick={handleAddToCart} className="w-full py-3 bg-green-600 text-white font-semibold rounded hover:bg-green-700">
+                                <span className='text-xl mr-1'>🛒</span> Add to Cart
                             </button>
                         </div>
                     </div>

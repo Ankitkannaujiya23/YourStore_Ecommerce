@@ -97,7 +97,7 @@ const SidebarMenu = () => {
     setCurrentPage(page);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   useEffect(() => {
     const query = new URLSearchParams();
@@ -243,7 +243,7 @@ const SidebarMenu = () => {
                                       onChange={(e) =>
                                         handleFilterValue(e, section, option)
                                       }
-                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 "
                                     />
                                     <label
                                       htmlFor={`filter-mobile-${section.id}-${optionIdx}`}

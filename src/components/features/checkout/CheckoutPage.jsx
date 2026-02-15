@@ -335,7 +335,7 @@ const CheckoutPage = () => {
                                         {!isAddOrUpdate ? <button
                                             type="button"
                                             onClick={() => setIsAddOrUpdate(true)}
-                                            className={`${!isValid ? "bg-indigo-200" : "hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"} rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm `}
+                                            className={`${!isValid ? "bg-indigo-200" : "hover:from-emerald-600 hover:to-teal-700"} hover:from-emerald-600 hover:to-teal-700 rounded-md bg-gradient-to-br from-emerald-500 to-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-sm `}
                                         >
                                             Add Address
                                         </button>

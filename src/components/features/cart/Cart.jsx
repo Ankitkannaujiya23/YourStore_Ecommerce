@@ -138,7 +138,7 @@ const Cart = ({ isFromCheckout, handleBuyNow }) => {
                         <div className="mt-6">
                             <button
                                 onClick={() => isFromCheckout ? handleBuyNow({ totalAmount, totalItems }) : handleCheckout()}
-                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-gradient-to-br from-emerald-500 to-teal-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                             >
                                 {isFromCheckout ? "Buy Now" : "Checkout"}
                             </button>
