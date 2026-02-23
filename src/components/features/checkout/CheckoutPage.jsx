@@ -17,6 +17,7 @@ import { useDeleteCategoryMutation } from '../category/categoryApi'
 import { useCreateOrderMutation } from '../orders/orderApi'
 import { clearCart, setCartItemsFromBackend } from '../cart/CartSlice'
 import { useFetchCartQuery } from '../cart/cartApi'
+import { stripePromise } from '../../../stripe/stripe'
 
 const CheckoutPage = () => {
 
@@ -94,13 +95,17 @@ const CheckoutPage = () => {
                     paymentMethod
                 }
                 const res = await createOrder(model);
+
                 if (res.data.statusCode === 200) {
                     dispatch(clearCart());
                     const resCartData = fetchedCart;
                     dispatch(setCartItemsFromBackend(resCartData || []));
-                    navigate(`/orderSuccess/${res.data?.response[0]?.id}`);
+                    navigate(`/orderSuccess/${res.data?.response?.id}`);
                     PopupAlertBox({ isSuccess: true, message: "Your order successfully placed.", timer: 3000 });
                 } else toast.error(res.data.message);
+
+
+
             } catch (error) {
                 console.log({ error });
                 toast.error(error.message);
@@ -109,6 +114,80 @@ const CheckoutPage = () => {
         }
     };
 
+
+    const handleBuyNowNew = async () => {
+        let goto = true;
+        if (!selectedAddress) {
+            goto = false;
+            PopupAlertBox({
+                isSuccess: false,
+                message: "Please select any address.",
+                timer: 3000
+            });
+        }
+
+        if (!paymentMethod) {
+            goto = false;
+            PopupAlertBox({
+                isSuccess: false,
+                message: "Add any Payment Method.",
+                timer: 3000
+            });
+        }
+
+        if (!goto) return;
+
+        try {
+
+            const model = {
+                addressId: selectedAddress.id,
+                paymentMethod
+            };
+
+            const res = await createOrder(model);
+
+            if (res.data.statusCode !== 200) {
+                toast.error(res.data.message);
+                return;
+            }
+
+            // =========================
+            // COD FLOW
+            // =========================
+
+            if (res.data.type === "COD") {
+
+                dispatch(clearCart());
+                const resCartData = fetchedCart;
+                dispatch(setCartItemsFromBackend(resCartData || []));
+                navigate(`/orderSuccess`);
+
+                PopupAlertBox({
+                    isSuccess: true,
+                    message: "Order placed successfully (COD)",
+                    timer: 3000
+                });
+
+                return;
+            }
+            // =========================
+            // ONLINE STRIPE FLOW
+            // =========================
+            if (res.data.type === "ONLINE") {
+                const stripe = await stripePromise;
+                await stripe.redirectToCheckout({
+                    sessionId: res.data.sessionId
+                });
+
+                // IMPORTANT:
+                // do NOT clear cart here
+                // webhook will handle it
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong");
+        }
+    }
 
     const handleAddress = async () => {
         try {

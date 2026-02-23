@@ -2,10 +2,10 @@ import React from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 
 const OrderSuccessPage = () => {
-const params=useParams();
+    const params = useParams();
     return (
         <>
-        {!params?.id && <Navigate to='/' replace={true} />}
+            {!params?.id && <Navigate to='/' replace={true} />}
             <div className="min-h-screen bg-gray-100 flex items-center justify-center">
                 <div className="bg-white p-10 rounded shadow-md text-center">
                     <div className="text-green-500 text-6xl mb-5">
