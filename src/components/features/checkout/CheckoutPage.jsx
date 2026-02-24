@@ -97,11 +97,19 @@ const CheckoutPage = () => {
                 const res = await createOrder(model);
 
                 if (res.data.statusCode === 200) {
-                    dispatch(clearCart());
-                    const resCartData = fetchedCart;
-                    dispatch(setCartItemsFromBackend(resCartData || []));
-                    navigate(`/orderSuccess/${res.data?.response?.id}`);
-                    PopupAlertBox({ isSuccess: true, message: "Your order successfully placed.", timer: 3000 });
+
+                    if (paymentMethod === "ONLINE") {
+
+                        // REDIRECT TO STRIPE PAGE
+                        window.location.href = res.data.paymentUrl;
+
+                    } else {
+                        dispatch(clearCart());
+                        const resCartData = fetchedCart;
+                        dispatch(setCartItemsFromBackend(resCartData || []));
+                        navigate(`/orderSuccess/${res.data?.response?.id}`);
+                        PopupAlertBox({ isSuccess: true, message: "Your order successfully placed.", timer: 3000 });
+                    }
                 } else toast.error(res.data.message);
 
 
