@@ -104,13 +104,16 @@ const CheckoutPage = () => {
                         window.location.href = res.data.paymentUrl;
 
                     } else {
-                        dispatch(clearCart());
-                        const resCartData = fetchedCart;
-                        dispatch(setCartItemsFromBackend(resCartData || []));
-                        navigate(`/orderSuccess/${res.data?.response?.id}`);
-                        PopupAlertBox({ isSuccess: true, message: "Your order successfully placed.", timer: 3000 });
+                        // const resCartData = fetchedCart;
+                        // dispatch(setCartItemsFromBackend(resCartData || []));
+                        navigate(`/orderSuccess/${res.data?.response?.id}`, { replace: true });
+                        // dispatch(clearCart());
+                        toast.success(res.data.message);
+                        // PopupAlertBox({ isSuccess: true, message: "Your order successfully placed.", timer: 3000 });
                     }
-                } else toast.error(res.data.message);
+                } else {
+                    toast.error(res.data.message);
+                }
 
 
 

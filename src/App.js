@@ -60,13 +60,13 @@ function App() {
             <Route path="/reset-password" element={<NewPasswordForm />} />
             <Route path="/productDetails/:id" element={<ProductDetailPage />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/orderSuccess/:orderId" element={<OrderSuccessPage />} />
 
             {/* 🔒 Protected Routes */}
             <Route path="/sidebarMenu" element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
 
             {/* 👑 Admin Only Routes */}
             <Route element={<PrivateRoute allowedRoles={['admin']} />}>
+              <Route path="/orderSuccess/:orderId" element={<OrderSuccessPage />} />
               <Route path="/checkout" element={<CheckoutPage />} />
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/addProduct" element={<AddProductPage />} />
