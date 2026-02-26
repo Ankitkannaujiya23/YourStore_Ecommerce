@@ -1,31 +1,36 @@
 import React from "react";
 
 const getStatusColor = (status) => {
-    console.log({ status });
-    switch (status) {
+    const delivery_status = status?.toLowerCase();
+    switch (delivery_status) {
         case "delivered":
             return "bg-green-100 text-green-800";
         case "shipped":
             return "bg-blue-100 text-blue-800";
-        case "processing":
+        case "not_shipped":
             return "bg-yellow-100 text-yellow-800";
         case "cancelled":
             return "bg-red-100 text-red-800";
+        case "returned":
+            return "bg-purple-100 text-purple-800";
         default:
             return "bg-gray-100 text-gray-800";
     }
 };
 
 const getStatusIcon = (status) => {
-    switch (status) {
+    const delivery = status?.toLowerCase();
+    switch (delivery) {
         case "delivered":
             return "fas fa-check-circle";
         case "shipped":
             return "fas fa-truck";
-        case "processing":
+        case "not_shipped":
             return "fas fa-clock";
         case "cancelled":
             return "fas fa-times-circle";
+        case "returned":
+            return "fas fa-exchange-alt";
         default:
             return "fas fa-question-circle";
     }
@@ -36,24 +41,24 @@ const OrderCard = ({ order }) => (
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
             <div className="flex-1">
                 <div className="flex items-center space-x-4 mb-3">
-                    <h4 className="font-semibold text-gray-900">Order Id: {order.id}</h4>
+                    <h4 className="font-semibold text-gray-900">Order Id: {order?.id}</h4>
                     <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                            order.status
+                            order?.delivery_status
                         )}`}
                     >
-                        <i className={`${getStatusIcon(order.status)} mr-1`}></i>
-                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        <i className={`${getStatusIcon(order?.delivery_status)} mr-1`}></i>
+                        {order?.delivery_status?.charAt(0)?.toUpperCase() + order?.delivery_status?.slice(1)}
                     </span>
                 </div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600">
                     <div>
                         <span className="font-medium">Date:</span>
-                        <p>{order.created_at}</p>
+                        <p>{order?.created_at}</p>
                     </div>
                     <div>
                         <span className="font-medium">Items:</span>
-                        <p>{order.products_count} items</p>
+                        <p>{order?.products_count} items</p>
                     </div>
                     <div>
                         <span className="font-medium">Total:</span>
@@ -61,7 +66,7 @@ const OrderCard = ({ order }) => (
                     </div>
                     <div>
                         <span className="font-medium">Tracking:</span>
-                        <p className="text-blue-600">{order.trackingNumber}</p>
+                        <p className="text-blue-600">{order?.trackingNumber}</p>
                     </div>
                 </div>
             </div>

@@ -186,6 +186,9 @@ import { logoutUser } from "../../mainPages/login-auth/AuthSlice";
 import { clearCart } from "../../components/features/cart/CartSlice";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { FaRegUser } from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
+
 
 
 const categories = [
@@ -287,14 +290,14 @@ const Navbar = () => {
                         <Menu.Item>
                           {({ active }) => (
                             <Link to="/account" className={`block px-4 py-2 ${active && "bg-gray-100"}`}>
-                              Profile
+                              <div className="flex items-center"><FaRegUser className="mr-2" />  Profile</div>
                             </Link>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
                             <button onClick={handleLogout} className={`block w-full text-left px-4 py-2 ${active && "bg-gray-100"}`}>
-                              Logout
+                              <div className="flex items-center text-md"> <CiLogout className="mr-2 text-xl font-bold text-red-700" /> Logout</div>
                             </button>
                           )}
                         </Menu.Item>
@@ -318,6 +321,7 @@ const Navbar = () => {
               <Link to="/shop" className="block px-4 py-2">Shop</Link>
               <Link to="/collections" className="block px-4 py-2">Collections</Link>
               <Link to="/deals" className="block px-4 py-2 text-emerald-600">Deals</Link>
+              <Link to="/about" className="block px-4 py-2">About</Link>
             </div>
           )}
         </div>

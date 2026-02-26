@@ -13,6 +13,7 @@ import UnAuthorize from './components/utilComponents/UnAuthorize';
 import { lazy, Suspense } from 'react';
 
 // Public Pages
+const AboutPage = lazy(() => import('./mainPages/about/AboutPage'));
 const HomePage = lazy(() => import('./mainPages/homepage/HomePage'));
 const LoginPage = lazy(() => import('./mainPages/login-auth/login/LoginPage'));
 const SignupPage = lazy(() => import('./mainPages/login-auth/signup/SignupPage'));
@@ -59,6 +60,7 @@ function App() {
             <Route path="/forgot-password" element={<ResetPasswordForm />} />
             <Route path="/reset-password" element={<NewPasswordForm />} />
             <Route path="/productDetails/:id" element={<ProductDetailPage />} />
+            <Route path='/about' element={<AboutPage />} />
             <Route path="/cart" element={<Cart />} />
 
             {/* 🔒 Protected Routes */}
