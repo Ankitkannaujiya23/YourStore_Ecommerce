@@ -54,9 +54,14 @@ const AdminPanel = () => {
           <div className="lg:col-span-2 bg-white p-4 rounded-lg shadow-md overflow-x-auto">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
               <h2 className="text-lg font-semibold">Products</h2>
-              <Link to="/addProduct" className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm">
-                + Add Product
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link to="/addCollection" className="bg-emerald-600 text-white px-4 py-2 rounded-md text-sm">
+                  + Add Collection
+                </Link>
+                <Link to="/addProduct" className="bg-purple-600 text-white px-4 py-2 rounded-md text-sm">
+                  + Add Product
+                </Link>
+              </div>
             </div>
             <table className="min-w-[600px] w-full border-collapse">
               <thead>

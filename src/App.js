@@ -22,6 +22,9 @@ const NewPasswordForm = lazy(() => import('./components/resetPassword/NewPasswor
 const ProductDetailPage = lazy(() => import('./components/features/product/productDetailsPage/ProductDetailPage'));
 const Cart = lazy(() => import('./components/features/cart/Cart'));
 const OrderSuccessPage = lazy(() => import('./components/features/orderSuccess/OrderSuccessPage'));
+const CollectionsPage = lazy(() => import('./mainPages/collectionPage/CollectionsPage'));
+const CollectionProductsPage = lazy(() => import('./mainPages/collectionPage/CollectionProductsPage'));
+const AddUpdateCollectionPage = lazy(() => import('./mainPages/collectionPage/AddUpdateCollectionPage'));
 
 // Admin Protected Pages
 const AdminPanel = lazy(() => import('./adminDashboard/AdminPanel'));
@@ -62,6 +65,8 @@ function App() {
             <Route path="/productDetails/:id" element={<ProductDetailPage />} />
             <Route path='/about' element={<AboutPage />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/collections" element={<CollectionsPage />} />
+            <Route path="/collection/:slug/products" element={<CollectionProductsPage />} />
 
             {/* 🔒 Protected Routes */}
             <Route path="/sidebarMenu" element={<PrivateRoute><SidebarMenu /></PrivateRoute>} />
@@ -79,6 +84,8 @@ function App() {
               <Route path="/updateSize/:id" element={<AddUpdateSizePage />} />
               <Route path="/addCategory" element={<AddUpdateCategoryPage />} />
               <Route path="/updateCategory/:id" element={<AddUpdateCategoryPage />} />
+              <Route path="/addCollection" element={<AddUpdateCollectionPage />} />
+              <Route path="/updateCollection/:id" element={<AddUpdateCollectionPage />} />
               <Route path="/account" element={<UserProfile />} />
             </Route>
 
