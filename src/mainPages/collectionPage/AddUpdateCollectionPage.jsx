@@ -99,8 +99,8 @@ const AddUpdateCollectionPage = () => {
         typeof collection?.is_active === "boolean"
           ? collection.is_active
           : typeof collection?.isActive === "boolean"
-          ? collection.isActive
-          : true,
+            ? collection.isActive
+            : true,
       productIdsInput: toProductIdsText(collection?.productIds ?? collection?.products),
     });
   }, [collectionByIdData, id, isUpdateMode]);
@@ -286,8 +286,8 @@ const AddUpdateCollectionPage = () => {
                 isFetching
                   ? "Loading..."
                   : isUpdateMode
-                  ? "Update Collection"
-                  : "Add Collection"
+                    ? "Update Collection"
+                    : "Add Collection"
               }
               type="submit"
               isLoading={isSubmitting || isFetching}
